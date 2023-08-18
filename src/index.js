@@ -4,12 +4,16 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { HomeProvider  } from './context/HomeContext';
+import { AuthProvider} from './context/authContext'
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
     <HomeProvider>
-      <App />
+      <AuthProvider>
+        <App />
+
+      </AuthProvider>
     </HomeProvider>
 
   </React.StrictMode>

@@ -1,0 +1,10 @@
+.Admin {
+    background-image: url(/public/images/Bg-admin.png);
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.form-admin {
+    background-color: rgba(240, 248, 255, 0.259);
+}

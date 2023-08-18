@@ -1,7 +1,5 @@
-.a-tooltip--type-2 {
-
+.a-tooltip--type-1 {
   display: none;
-
   background-color: red;
   position: absolute;
   padding: 0 12px;
@@ -15,7 +13,7 @@
   z-index: 300;
 }
 
-.aaa:hover .a-tooltip--type-2{
+.logout:hover .a-tooltip--type-1 {
   display: block;
   content: "";
   position: absolute;
@@ -27,7 +25,39 @@
   line-height: 2.333333333333333;
   color: #fff;
   text-align: center;
-  left: -8px;
+  right: 5%;
+  margin-top: -1px;
+  border-radius: 8px 8px 8px 8px;
+}
+
+.a-tooltip--type-2 {
+  display: none;
+  background-color: red;
+  position: absolute;
+  padding: 0 12px;
+  white-space: nowrap;
+  background: #303840;
+  font-size: 12px;
+  font-size: 1rem;
+  line-height: 2.333333333333333;
+  color: #fff;
+  text-align: center;
+  z-index: 300;
+}
+
+.login:hover .a-tooltip--type-2{
+  display: block;
+  content: "";
+  position: absolute;
+  padding: 0 12px;
+  white-space: nowrap;
+  background: #303840;
+  font-size: 12px;
+  font-size: 1rem;
+  line-height: 2.333333333333333;
+  color: #fff;
+  text-align: center;
+  right: -8px;
   margin-top: 5px;
   border-radius: 8px 8px 8px 8px;
 }

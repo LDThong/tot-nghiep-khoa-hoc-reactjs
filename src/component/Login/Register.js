@@ -3,9 +3,6 @@ import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
 function Register() {
-    const [email, setEmail] = useState('');
-    const [username, setUsername] = useState('');
-    const [password, setPassword] = useState('');
     const navigate = useNavigate();
 
     const postData = async (data) => {
@@ -24,22 +21,22 @@ function Register() {
     }
 
     const onSubmit = (event) => {
-        event.preventDefault();
-
         const data = {
             email: event.target.email.value,
             username: event.target.username.value,
             password: event.target.password.value,
+            password0: event.target.password0.value,
+        }
+        if (data.password === data.password0) {
+            postData(data)
+            console.log(data);
+            alert("Sign Up Success");
+            navigate('/login');
+        } else {
+            alert('Password does not match')
         }
 
-        postData(data)
-        console.log(data);
-        alert("Sign Up Success");
-        navigate('/login');
-
     }
-
-    
 
     return (
         <div className='bg-[#F8F8F8]'>
@@ -55,14 +52,13 @@ function Register() {
                             <div className='flex flex-col items-center gap-[24px]'>
                                 <div className='flex items-center justify-between w-full'>
                                     <p className='text-[24px] font-bold'>MEMBER REGISTRATION</p>
-                                    <span className='text-[16px] font-normal text-[#0098EA]'>Daftar</span>
+                                    <span className='text-[16px] font-normal text-[#0098EA]'>List</span>
                                 </div>
                                 <form className='flex flex-col gap-[16px] w-full' onSubmit={onSubmit}>
                                     <div className='w-full leading-[40px]'>
                                         <input
                                             type='email'
                                             name='email'
-                                            value={email.email}
                                             className='bg-[#fff] w-full text-[14px] p-[0_16px_0_14px] rounded-[4px] border-solid border-[#D0D0D0] border'
                                             placeholder='Email' />
                                     </div>
@@ -70,7 +66,6 @@ function Register() {
                                         <input
                                             type='text'
                                             name='username'
-                                            value={username.username}
                                             className='bg-[#fff] w-full text-[14px] p-[0_16px_0_14px] rounded-[4px] border-solid border-[#D0D0D0] border'
                                             placeholder='Username' />
                                     </div>
@@ -78,14 +73,20 @@ function Register() {
                                         <input
                                             type='password'
                                             name='password'
-                                            value={password.password}
                                             className='bg-[#fff] w-full text-[14px] p-[0_16px_0_14px] rounded-[4px] border-solid border-[#D0D0D0] border'
                                             placeholder='Password' />
+                                    </div>
+                                     <div className='w-full leading-[40px]'>
+                                        <input
+                                            type='password'
+                                            name='password0'
+                                            className='bg-[#fff] w-full text-[14px] p-[0_16px_0_14px] rounded-[4px] border-solid border-[#D0D0D0] border'
+                                            placeholder='Re-enter password' />
                                     </div>
                                     <div className='w-full h-[4px]'></div>
                                     <div className='w-full'>
                                         <button
-                                            className='px-[24px] py-[12px] rounded-[8px] font-bold text-[16px] text-[#fff] bg-[#42A7C3] w-full'>
+                                            className='px-[24px] py-[12px] rounded-[8px] font-bold text-[16px] text-[#fff] bg-[#00A400] w-full'>
                                             Submit
                                         </button>
                                     </div>

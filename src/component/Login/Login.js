@@ -1,11 +1,47 @@
-import React, { useContext } from 'react'
-import { Link } from 'react-router-dom'
+import React, { useContext, useEffect, useState } from 'react'
+import { Link, useNavigate } from 'react-router-dom'
 import { HomeContext } from '../../context/HomeContext'
+import axios from 'axios';
+import { AuthContext } from '../../context/authContext';
 
 function Login() {
-    const {state, setState} = useContext(HomeContext);
+    const {list, setList} = useContext(HomeContext);
+    const navigate = useNavigate();
+    const {state, setState} = useContext(AuthContext);
 
+    const getData = async () => {
+        const response = await axios.get(
+            'http://localhost:8000/user',
+        );
+
+        if (response.status === 200) {
+            setList(response.data);
+        }
+    };
+
+    const onLogin = (event) => {
+        event.preventDefault();
+        console.log(list);
+        const data = {
+            email: event.target.email.value,
+            password: event.target.password.value,
+        };
+        console.log(data);
+
+        const foundUser = list.find(user => user.email === data.email && user.password === data.password);
+        
+        if (foundUser) {
+            alert('Login successful');
+            navigate('/')
+            setState(foundUser);
+        } else {
+            alert('Login failed');
+        }
+    }
     
+    useEffect(() => {
+        getData();
+    }, [])
 
     return (
         <div className='bg-[#F8F8F8]'>
@@ -21,15 +57,13 @@ function Login() {
                             <div className='flex flex-col items-center gap-[24px]'>
                                 <div className='flex items-center justify-between w-full'>
                                     <p className='text-[24px] font-bold'>Masuk</p>
-                                    <span className='text-[16px] font-normal text-[#0098EA]'>Daftar</span>
+                                    <span className='text-[16px] font-normal text-[#0098EA]'>List</span>
                                 </div>
-                                <form className='flex flex-col gap-[16px] w-full'>
+                                <form className='flex flex-col gap-[16px] w-full' onSubmit={onLogin}>
                                     <div className='w-full leading-[40px]'>
                                         <input
                                             type='email'
                                             name='email'
-                                            // value={state.email}
-                                            // onChange={handleChange}
                                             className='bg-[#fff] w-full text-[14px] p-[0_16px_0_14px] rounded-[4px] border-solid border-[#D0D0D0] border'
                                             placeholder='Email' />
                                     </div>
@@ -37,26 +71,21 @@ function Login() {
                                         <input
                                             type='password'
                                             name='password'
-                                            // value={state.password}
-                                            // onChange={handleChange}
                                             className='bg-[#fff] w-full text-[14px] p-[0_16px_0_14px] rounded-[4px] border-solid border-[#D0D0D0] border'
                                             placeholder='Password' />
                                     </div>
                                     <div className='w-full h-[4px]'></div>
                                     <div className='w-full'>
                                         <button
-                                            // onClick={handleSubmit}
-                                            // disabled={!state.email || !state.password}
-                                            className='px-[24px] py-[12px] rounded-[8px] font-bold text-[16px] text-[#fff] bg-[#42A7C3] w-full'>
+                                            type='submit'
+                                            className='px-[24px] py-[12px] rounded-[8px] font-bold text-[16px] text-[#fff] bg-[#1877F2] w-full'>
                                             Login
                                         </button>
                                     </div>
                                     <Link to={'/register'}>
                                         <div className='w-full'>
                                             <button
-                                                // onClick={handleSubmit}
-                                                // disabled={!state.email || !state.password}
-                                                className='px-[24px] py-[12px] rounded-[8px] font-bold text-[16px] text-[#fff] bg-[#42A7C3] w-full'>
+                                                className='px-[24px] py-[12px] rounded-[8px] font-bold text-[16px] text-[#fff] bg-[#42B72A] w-full'>
                                                 Register
                                             </button>
                                         </div>
