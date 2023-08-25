@@ -1,5 +1,5 @@
 .Admin {
-    background-image: url(/public/images/Bg-admin.png);
+    background-image: url(/public/images/text2.png);
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
@@ -8,3 +8,52 @@
 .form-admin {
     background-color: rgba(240, 248, 255, 0.259);
 }
+
+.product:hover .products{
+    display: block;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    padding-left: 20px;
+}
+
+.products {
+    display: none;   
+}
+
+.detail:hover {
+    background-color: #00a8e8;
+    color: #fff;
+    z-index: 2;
+}
+
+.detail:hover .icon-detail {
+    display: block;
+}
+
+.icon-detail {
+    position: absolute;
+    /* top: 35%; */
+    right: 13px;
+    width: 15px;
+    height: 15px;
+    display: none;
+}
+
+.item:hover .item-hidden {
+    display: block;
+}
+
+.item-hidden {
+    box-shadow: 0 4px 40px 0 rgba(48,56,64,0.4);
+    background: rgba(48,56,64,0.8);
+    display: none;
+    animation: cardHover 250ms ease forwards;
+    transition: all 375ms cubic-bezier(0.4, 0, 0.2, 1)
+}
+
+.item-name {
+    color: #fff;
+}
+
+

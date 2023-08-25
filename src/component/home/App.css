@@ -45,7 +45,7 @@
   z-index: 300;
 }
 
-.login:hover .a-tooltip--type-2{
+.login:hover .a-tooltip--type-2 {
   display: block;
   content: "";
   position: absolute;
@@ -64,7 +64,7 @@
 
 .backpagetop {
   background: url(https://p-bandai.com/_ui/responsive/common/images/icon-pagetop.svg) right center no-repeat;
-  background-size: 20px 20px  ;
+  background-size: 20px 20px;
 }
 
 .backpagetop:hover {
@@ -77,10 +77,16 @@
   color: #fff;
 }
 
-.information > a {
+.information>a {
   font-size: 16px;
 }
 
-.information > a:hover {
+.information>a:hover {
   color: #c8c8c8;
+}
+
+.nameP {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
 }

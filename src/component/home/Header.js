@@ -9,13 +9,13 @@ import { HomeContext } from '../../context/HomeContext';
 import { AuthContext } from '../../context/authContext';
 
 function Header() {
-  const { state, setState } = useContext(AuthContext);
-  console.log(state);
+    const { state, setState } = useContext(AuthContext);
+    console.log(state);
 
-  const handleLogout = () => {
-    setState({ email: '', password: '', username: ''});
-    window.localStorage.setItem('username', '');
-  }
+    const handleLogout = () => {
+        setState({ email: '', password: '', username: '' });
+        window.localStorage.removeItem('email');
+    }
 
     return (
         <div>
@@ -23,13 +23,15 @@ function Header() {
                 <div className='flex  container justify-between bg-[#02021E] h-[70px] px-[24px]'>
                     <div className='flex flex-row  gap-[20px] items-center w-full h-full'>
                         <div className='h-full'>
+                            <Link to={'/'}>
+                                <img src='/images/logoFooter.png' className='h-full'></img>
 
-                            <img src='/images/logo.png' className='h-full'></img>
+                            </Link>
                         </div>
                         <div className='relative w-2/5'>
                             <form className='flex flex-row items-center w-full'>
-                                <input className='w-full px-[16px] py-[8px] border rounded-[18px] text-[12.2px] border-gray bg-[#f8f8f8]' type='search' placeholder='SEARCH'></input>
-                                <a className='flex items-center absolute top-0 right-0 text-black cursor-pointer w-[36px] h-full'>
+                                <input className='w-full p-[8px_16px_8px_40px] border rounded-[18px] text-[12.2px] border-gray bg-[#f8f8f8]' type='search' placeholder='SEARCH'></input>
+                                <a className='flex items-center absolute top-0 left-[10px] text-black cursor-pointer w-[36px] h-full'>
                                     <FontAwesomeIcon icon={faMagnifyingGlass} />
                                 </a>
                             </form>
@@ -54,7 +56,7 @@ function Header() {
                             <div className='relative logout'>
                                 <p className='px-[24px] py-[8px] font-bold cursor-pointer text-[#fff]'>{state.username}</p>
                                 <div className="a-tooltip--type-1">
-                                    <button 
+                                    <button
                                         onClick={handleLogout}
                                         className=''>
                                         LOGOUT

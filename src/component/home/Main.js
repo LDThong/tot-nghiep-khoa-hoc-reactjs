@@ -1,26 +1,32 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faBell } from '@fortawesome/free-solid-svg-icons';
+import { faBell, faCaretRight } from '@fortawesome/free-solid-svg-icons';
 import { HomeContext } from '../../context/HomeContext';
 import axios from 'axios';
+import { Link } from 'react-router-dom';
 
 function Main() {
-    const { list, setList} = useContext(HomeContext);
+    const { list, setList } = useContext(HomeContext);
+    const [listP, setListP] = useState([]);
 
     const getData = async () => {
         const response = await axios.get(
             'http://localhost:8000/product',
         );
 
-        if(response.status === 200) {
+        if (response.status === 200) {
             setList(response.data)
-            console.log(list);
+            const sortL = [...response.data].sort((a, b) => b.id - a.id);
+            const fiveItems = sortL.slice(0,5)
+            setListP(fiveItems);
         }
     };
 
+    console.log(listP);
     useEffect(() => {
         getData();
     }, []);
+
 
   return (
     <div className='pt-[70px]'>
@@ -37,31 +43,26 @@ function Main() {
                             </h3>
                         </div>
                         <div className='grid grid-cols-6 gap-[2px] shadow-[0_1px_2px_0_rgba(48,56,64,0.16)] bg-[#fff]'>
-                            {/* {[1, 2, 3, 4, 5, 6].map((item) => (
-                                <div key={item}>
-                                    <a className='border-r border-red border-solid border-b'>
-                                        <img className='aspect-[250/180] w-full p-[20px]' src={`'/images/post${item}.png'`} alt=''></img>
-                                    </a>
-                                </div>
-                            ))} */}
-                            <a className='border-r border-red border-solid border-b'>
-                                <img className='aspect-[250/180] w-full p-[20px]' src='/images/logoNaruto.png'></img>
-                            </a>
-                            <a className='border-r border-red border-solid border-b'>
-                                <img className='aspect-[250/180] w-full p-[20px]' src='/images/logoGundam.png'></img>
-                            </a>
-                            <a className='border-r border-red border-solid border-b'>
-                                <img className='aspect-[250/180] w-full p-[20px]' src='/images/logoDragonball.png'></img>
-                            </a>
-                            <a className='border-r border-red border-solid border-b'>
-                                <img className='aspect-[250/180] w-full p-[20px]' src='/images/logoMavel.png'></img>
-                            </a>
-                            <a className='border-r border-red border-solid border-b'>
-                                <img className='aspect-[250/180] w-full p-[20px]' src='/images/logoTransformers.png'></img>
-                            </a>
-                            <a className='border-r border-red border-solid border-b'>
-                                <img className='aspect-[250/180] w-full p-[20px]' src='/images/logoOnepice.png'></img>
-                            </a>
+                              <a className='border-r border-red border-solid border-b'>
+                                  <img className='aspect-[250/180] w-full p-[20px]' src='/images/logoNaruto.png'></img>
+                              </a>
+                              <a className='border-r border-red border-solid border-b'>
+                                  <img className='aspect-[250/180] w-full p-[20px]' src='/images/logoGundam.png'></img>
+                              </a>
+                              <a className='border-r border-red border-solid border-b'>
+                                  <img className='aspect-[250/180] w-full p-[20px]' src='/images/logoDragonball.png'></img>
+                              </a>
+                              <a className='border-r border-red border-solid border-b'>
+                                <Link to={'/shopmavel'}>  
+                                  <img className='aspect-[250/180] w-full p-[20px]' src='/images/logoMavel.png'></img>
+                                </Link>
+                              </a>
+                              <a className='border-r border-red border-solid border-b'>
+                                  <img className='aspect-[250/180] w-full p-[20px]' src='/images/logoTransformers.png'></img>
+                              </a>
+                              <a className='border-r border-red border-solid border-b'>
+                                  <img className='aspect-[250/180] w-full p-[20px]' src='/images/logoOnepice.png'></img>
+                              </a>
                         </div>
                     </section>
 
@@ -75,19 +76,33 @@ function Main() {
                             </h3>
                             <p className='mt-[6px] text-[#707070]'>THE LAST FORM ĐT MODEL</p>
                         </div>
-                        <div className='grid grid-cols-5 gap-[2px] shadow-[0_1px_2px_0_rgba(48,56,64,0.16)] bg-[#fff]'>
-                            {list.map((item) => (
-                                <div key={item} className='border-r border-red border-solid border-b p-[37px_36px_24px_36px]'>
+                        <div className='grid grid-cols-5 shadow-[0_1px_2px_0_rgba(48,56,64,0.16)] bg-[#fff]'>
+                            {listP.map((item) => (
+                                <div key={item} className='item relative border-r border-red border-solid border-b p-[37px_36px_24px_36px]'>
                                     <a className=''>
                                         <img
-                                            className='w-full h-auto'
-                                            src='/images/MG-tallgeese-II.png' alt=''>
+                                            className='w-[176px] h-[176px]'
+                                            src={item.imgs} alt=''>
                                         </img>
-                                        <div className='mt-[14px]'>
-                                            <p className='overflow-hidden'>{item.name}</p>
-                                            <span className='font-light'>{item.price} {item.unit}</span>
+                                        <div className='h-[50px] overflow-hidden mt-[14px]'>
+                                            <p className='nameP'>{item.nameProduct}</p>
                                         </div>
+                                        <span className='font-light'>{item.unit} {item.price}</span>
                                     </a>
+                                    <div className='item-hidden absolute top-0 left-0 right-0 bottom-0 p-[176px_36px_24px_36px]'>
+                                        <Link to={'/productdetail/' + item.id} state={item}>
+                                            <div className='detail relative flex justify-center items-center p-[10px_24px_9px_24px] leading-none bg-[#f0f0f0] text-[#303840] rounded-[24px] w-full'>
+                                                <span>VIEW DETAIL</span>
+                                                <FontAwesomeIcon className='icon-detail' icon={faCaretRight} />
+                                            </div>
+                                        </Link>
+                                        <div className='item-name'>
+                                            <div className='h-[50px] overflow-hidden mt-[14px]'>
+                                                <p className='nameP'>{item.nameProduct}</p>
+                                            </div>
+                                            <span className='font-light'>{item.unit} {item.price}</span>
+                                        </div>
+                                    </div>
                                 </div>
                             ))}
                         </div>

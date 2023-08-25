@@ -4,6 +4,38 @@ import { Link, useNavigate } from 'react-router-dom';
 
 function Register() {
     const navigate = useNavigate();
+    // const [ baseImage, setBaseImage] = useState('');
+
+    // const uploadImage = async (e) => {
+    //     const file = e.target.files[0];
+    //     const base64 = await convertBase64(file);
+    //     console.log(base64);
+    //     setBaseImage(base64);
+    // }
+
+    // const convertBase64 = (file) => {
+    //     return new Promise((resolve, reject) => {
+    //         const fileReader = new FileReader();
+    //         fileReader.readAsDataURL(file);
+
+    //         fileReader.onload = () => {
+    //             resolve(fileReader.result);
+    //         };
+
+    //         fileReader.onerror = (error) => {
+    //             reject(error);
+    //         }
+    //     })
+    // }
+
+	// const onUpload = async () => {
+	// 	const response = await axios.post(
+    //         'http://localhost:8000/product',{
+    //             imgs: baseImage,
+    //         }
+    //     );
+	// };
+
 
     const postData = async (data) => {
         const response = await axios.post(
@@ -14,10 +46,6 @@ function Register() {
                 password: data.password
             }
         );
-
-        if (response.status === 200) {
-           
-        }
     }
 
     const onSubmit = (event) => {
@@ -37,6 +65,9 @@ function Register() {
         }
 
     }
+
+    useEffect(()=>{
+    },[])
 
     return (
         <div className='bg-[#F8F8F8]'>
@@ -86,6 +117,7 @@ function Register() {
                                     <div className='w-full h-[4px]'></div>
                                     <div className='w-full'>
                                         <button
+                                            
                                             className='px-[24px] py-[12px] rounded-[8px] font-bold text-[16px] text-[#fff] bg-[#00A400] w-full'>
                                             Submit
                                         </button>
@@ -101,6 +133,16 @@ function Register() {
                                     <p className='text-[14px] text-[#D0D0D0]'>Other Ways to Register</p>
                                 </div>
                             </div>
+
+                            {/* aaaaa */}
+                            {/* <div>
+                                <input type='file' className='w-40' onChange={(e) => {uploadImage(e);}}></input>
+                                <img src={baseImage} height='200px'></img>
+                                <button type='button' onClick={onUpload} className='w-10 h-10 bg-red-200'>+</button>
+                            </div> */}
+
+
+                            {/* aaaaa */}
                             <div className='flex flex-col items-center gap-[16px]'>
                                 <div className='flex items-start w-full'>
                                     <button className='flex justify-center items-center gap-[16px] px-[24px] py-[12px] rounded-[8px] w-full font-bold border-solid border-[#D0D0D0] border'>

@@ -8,6 +8,8 @@ function Login() {
     const {list, setList} = useContext(HomeContext);
     const navigate = useNavigate();
     const {state, setState} = useContext(AuthContext);
+    const [userState, setUserState] = useState('')
+    const [email,setEmail] = useState('')
 
     const getData = async () => {
         const response = await axios.get(
@@ -23,17 +25,20 @@ function Login() {
         event.preventDefault();
         console.log(list);
         const data = {
-            email: event.target.email.value,
+            email: email,
             password: event.target.password.value,
         };
         console.log(data);
 
         const foundUser = list.find(user => user.email === data.email && user.password === data.password);
         
+        
         if (foundUser) {
             alert('Login successful');
-            navigate('/')
+            window.localStorage.setItem('email', email);
             setState(foundUser);
+            navigate('/')
+            
         } else {
             alert('Login failed');
         }
@@ -61,9 +66,10 @@ function Login() {
                                 </div>
                                 <form className='flex flex-col gap-[16px] w-full' onSubmit={onLogin}>
                                     <div className='w-full leading-[40px]'>
-                                        <input
+                                        <input  required
                                             type='email'
                                             name='email'
+                                            onChange={(e)=>setEmail(e.target.value)}
                                             className='bg-[#fff] w-full text-[14px] p-[0_16px_0_14px] rounded-[4px] border-solid border-[#D0D0D0] border'
                                             placeholder='Email' />
                                     </div>

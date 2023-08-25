@@ -16,8 +16,8 @@ const AuthProvider = ({ children }) => {
     const [state, setState] = useState(initialState); // Khởi tạo trạng thái và hàm để cập nhật trạng thái
 
     useEffect(() => {
-        const usernameStote = window.localStorage.getItem('username');
-        setState({...state, username: usernameStote});
+        const emailState = window.localStorage.getItem('email');
+        setState({...state, username: emailState});
     }, []);
 
     return <Provider value={{ state, setState}}>{children}</Provider>
