@@ -4,15 +4,20 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { HomeProvider  } from './context/HomeContext';
-import { AuthProvider} from './context/authContext'
+import { AuthProvider} from './context/authContext';
+import { ProductProvider } from './context/ProductContext';
+import { SearchProvider} from './context/SearchContext';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
     <HomeProvider>
       <AuthProvider>
-        <App />
-
+        <SearchProvider>
+          <ProductProvider>
+            <App />
+          </ProductProvider>
+        </SearchProvider>
       </AuthProvider>
     </HomeProvider>
 

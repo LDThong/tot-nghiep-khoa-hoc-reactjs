@@ -7,7 +7,18 @@ import AdminHome from "./component/Admin/adminHome";
 import ListProduct from "./component/Admin/ListProduct";
 import AddProduct from "./component/Admin/AddProduct";
 import ProductDetail from "./component/home/ProductDetail";
-import ShopMavel from "./component/home/ShopMavel"
+import ShopMarvel from "./component/home/ShopMarvel";
+import ShopNaruto from "./component/home/ShopNaruto";
+import ShopGundam from "./component/home/ShopGundam";
+import ShopDragonBall from "./component/home/ShopDragonBall";
+import ShopTransformers from "./component/home/ShopTransformers";
+import ShopOnePiece from "./component/home/ShopOnePiece";
+import SearchResults from "./component/home/SearchResults";
+import EditProduct from "./component/Admin/EditProduct";
+import { ShopProvider } from "./context/ShopContext";
+import { Provider } from "react-redux";
+import { store } from "./store";
+import ViewCart from "./component/home/ViewCart";
 
 const router = createBrowserRouter([
   {
@@ -23,11 +34,11 @@ const router = createBrowserRouter([
     element: <Register />
   },
   {
-    path: '/admin',
+    path: '/admin/',
     element: <Admin />
   },
   {
-    path: '/admin/home',
+    path: '/admin/home/',
     element: <AdminHome />
   },
   {
@@ -43,13 +54,49 @@ const router = createBrowserRouter([
     element: <ProductDetail />
   },
   {
-    path: '/shopmavel/',
-    element: <ShopMavel />
+    path: '/shopmarvel/',
+    element: <ShopMarvel />
+  },
+  {
+    path: '/shopnaruto/',
+    element: <ShopNaruto />
+  },
+  {
+    path: '/shopgundam',
+    element: <ShopGundam />
+  },
+  {
+    path: '/shopdragonball',
+    element: <ShopDragonBall />
+  },
+  {
+    path: '/shoptransformers',
+    element: <ShopTransformers />
+  },
+  {
+    path: '/shoponepiece',
+    element: <ShopOnePiece />
+  },
+  {
+    path: '/searchresult',
+    element: <SearchResults />
+  },
+  {
+    path: '/editproduct/:id',
+    element: <EditProduct />
+  },
+  {
+    path: '/viewcart/',
+    element: <ViewCart />
   }
 ])
 
 function App() {
-  return <RouterProvider router={router} />;
+  return (
+    <Provider store={store}>
+      <RouterProvider router={router} />
+    </Provider>
+  )
 }
 
 export default App;

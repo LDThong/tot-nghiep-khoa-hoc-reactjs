@@ -1,4 +1,5 @@
-import React from 'react'
+import React from 'react';
+import { Link } from 'react-router-dom';
 
 function Footer() {
     return (
@@ -13,7 +14,9 @@ function Footer() {
                     <div className='flex flex-row gap-[43px] p-[54px_0_31px_0] w-full'>
                         <div className='w-1/4'>
                             <a className='mb-[26px] block'>
-                                <img className='w-3/4 h-[75px] rounded-[15px]' src='/images/logoFooter.png'></img>
+                                <Link to={'/'}>
+                                    <img className='w-3/4 h-[75px] rounded-[15px]' src='/images/logoFooter.png'></img>
+                                </Link>
                             </a>
                             <p className='tracking-[.04em] text-[#c8c8c8] text-[14px]'>ĐT's OFFICIAL ONLINE STORE</p>
                         </div>

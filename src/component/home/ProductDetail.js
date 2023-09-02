@@ -5,13 +5,21 @@ import axios from 'axios';
 import './App.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCaretRight } from '@fortawesome/free-solid-svg-icons';
-import { AiOutlineRight} from 'react-icons/ai'
+import { AiOutlineRight} from 'react-icons/ai';
 import { Link, useParams } from 'react-router-dom';
+import { useShopContext } from '../../context/ShopContext';
+import { useDispatch } from 'react-redux';
+import { addProductToCart } from '../../store/CartSlice';
 
 function ProductDetail() {
 	let { id } = useParams();
 
     const [ detail, setDetail] = useState({});
+    // const { addProductToCart} = useShopContext();
+    const dispatch = useDispatch();
+    const onAdd = (newProduct) => {
+        dispatch(addProductToCart(newProduct));
+    };
 
     const getData = async () => {
         const response = await axios.get(
@@ -20,7 +28,6 @@ function ProductDetail() {
 
         if (response.status === 200) {
             setDetail(response.data);
-            console.log(detail);
         };
     };
 
@@ -37,12 +44,14 @@ function ProductDetail() {
                     <h1>Home</h1>
                 </Link>
                 <AiOutlineRight className='text-[#CDCDCD]'/>
-                <p>{detail.typeModel}</p>
+                    <p>{detail.typeModel}</p>
                 <AiOutlineRight className='text-[#CDCDCD]'/>
                 <p className='font-bold'>{detail.nameProduct}</p>
             </div>
             {detail && (
-                <div className='w-[1140px] mx-auto bg-[#fff] h-full'>
+                <div 
+                    onClick={() => onAdd(detail)}
+                    className='w-[1140px] mx-auto bg-[#fff] h-full'>
                     <div className='flex flex-row gap-[64px] p-[48px] w-full h-full'>
                         <div className='w-[56%] h-full'>
                             <div className='w-full'>
@@ -62,8 +71,10 @@ function ProductDetail() {
                                 </div>
                                 <form>
                                     <div className='absolute bottom-0 w-full'>
-                                        <button className='flex justify-center items-center w-full p-[14px_24px] rounded-[24px] bg-[#F82888] font-bold text-[#fff]'>
-                                            <span>ORDER</span>
+                                        <button 
+                                            type='button'
+                                            className='flex justify-center items-center w-full p-[14px_24px] rounded-[24px] bg-[#F82888] font-bold text-[#fff]'>
+                                            <span>Add To Cart</span>
                                             <FontAwesomeIcon icon={faCaretRight} className='absolute right-[19px] text-[20px]'/>
                                         </button>
                                     </div>

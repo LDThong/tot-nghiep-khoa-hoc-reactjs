@@ -61,7 +61,7 @@ function Login() {
                         <div className='flex flex-col p-[30px_40px] w-3/5 gap-[24px] bg-[#fff] rounded-[25px]'>
                             <div className='flex flex-col items-center gap-[24px]'>
                                 <div className='flex items-center justify-between w-full'>
-                                    <p className='text-[24px] font-bold'>Masuk</p>
+                                    <p className='text-[24px] font-bold'>Login</p>
                                     <span className='text-[16px] font-normal text-[#0098EA]'>List</span>
                                 </div>
                                 <form className='flex flex-col gap-[16px] w-full' onSubmit={onLogin}>

@@ -82,7 +82,7 @@ function AddProduct() {
                 <div className='flex w-[100%] p-[40px_20px] bg-[#c8dadf] outline-offset-[-10px] outline-2 outline-dashed outline-[#92b0b3]'>
                   <div className='flex flex-col justify-center items-center gap-[20px] w-[50%]'>
                     <MdAddPhotoAlternate className='text-[100px] text-[#92B0B3]' />
-                    <input type='file' className='w-[50%] h-[50%]' onChange={(e) => { uploadImage(e); }}></input>
+                    <input type='file' className='w-[50%] h-[50%]' onChange={(e) => { uploadImage(e) }}></input>
                   </div>
                   <div className='flex justify-center w-[50%]'>
                     <img src={baseImage} className='w-[27%]'></img>
@@ -106,14 +106,15 @@ function AddProduct() {
                       <option value='Dragon Ball'>Dragon Ball</option>
                       <option value='Marvel'>Marvel</option>
                       <option value='Transformers'>Transformers</option>
-                      <option value='OnePice'>One Pice</option>
+                      <option value='OnePiece'>One Piece</option>
                     </select>
                   </div>
                   <div className='relative flex justify-center items-center gap-[20px] w-full'>
                     <label className='font-bold text-[18px] w-[15%]'>Price:</label>
                     <input
                       name='price'
-                      className='px-[20px] py-[10px] w-[40%] border rounded-[10px]' type='number' placeholder=''></input>
+                      className='px-[20px] py-[10px] w-[40%] border rounded-[10px]' type='number' placeholder=''>
+                    </input>
                     <div className='absolute left-[390px]'>
                       <span>US $</span>
                     </div>

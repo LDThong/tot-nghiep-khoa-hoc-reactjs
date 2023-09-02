@@ -17,7 +17,7 @@ const AuthProvider = ({ children }) => {
 
     useEffect(() => {
         const emailState = window.localStorage.getItem('email');
-        setState({...state, username: emailState});
+        setState({...state, email: emailState});
     }, []);
 
     return <Provider value={{ state, setState}}>{children}</Provider>

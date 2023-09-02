@@ -4,10 +4,12 @@ import HeaderAdmin from './headerAdmin';
 import { HomeContext } from '../../context/HomeContext';
 import axios from 'axios';
 import {AiFillDelete, AiTwotoneEdit, AiFillLeftCircle, AiFillRightCircle} from 'react-icons/ai';
+import { useNavigate } from 'react-router-dom';
 
 function ListProduct() {
   const { list, setList } = useContext(HomeContext);
   const [pageNumber, setPageNumber] = useState(1);
+  const Navigate = useNavigate();
 
   const handlePageNumber = () =>{
     setPageNumber(pageNumber+1);
@@ -45,6 +47,11 @@ function ListProduct() {
        await getData();
     };
   };
+
+  const onEdit = (id) => {
+    Navigate('/editproduct/' + id)
+  }
+  
   
   return (
 
@@ -54,7 +61,7 @@ function ListProduct() {
       </div>
       <div className='flex flex-col w-4/5 bg-[#F8F8F8]'>
         <HeaderAdmin />
-        <div className='relative flex flex-col w-full h-[100%] px-[40px]'>
+        <div className='relative flex flex-col w-full h-full px-[40px]'>
           <div className=''>
             <div className='border'>
               <div className='flex flex-row w-full border-b '>
@@ -99,7 +106,9 @@ function ListProduct() {
                       </button>
                     </div>
                     <div className='p-[5px_10px] rounded-[20px] bg-green-500'>
-                      <button className='flex items-center gap-[5px] text-[#fff]'>
+                      <button 
+                        onClick={() => onEdit(item.id)}
+                        className='flex items-center gap-[5px] text-[#fff]'>
                         <AiTwotoneEdit className='text-[20px] text-[#fff]'/>
                         Edit
                       </button>
@@ -119,7 +128,7 @@ function ListProduct() {
               <p className='font-bold text-[20px]'>{pageNumber}</p>
               <button 
                 onClick={handlePageNumber} 
-                disabled={pageNumber === 3 ? true : false}
+                disabled={pageNumber === 10 ? true : false}
                 className='text-[25px]'
               >
                 <AiFillRightCircle />
