@@ -22,7 +22,6 @@ function Header() {
     const carts = useSelector((state) => state.cart.carts);
     const dispatch = useDispatch();
     const Navigate = useNavigate();
-    console.log(carts);
 
     // const removeToCart = (product) => {
     //     dispatch(removeProductToCart(product))
@@ -30,17 +29,13 @@ function Header() {
 
     const handleLogout = (product) => {
         setState({ email: '', password: '', username: '' });
-        window.localStorage.removeItem('email');
+        window.localStorage.removeItem('username');
         dispatch(deleteProductToCart(product));
         Navigate('/');
     };
 
     const PageHandling = () => {
-        // if (carts.length === 0) {
-        //     Navigate('/login')
-        // } else {
-            Navigate('/viewcart')
-        // }
+        Navigate('/viewcart')
     }
 
     const getData = async () => {
@@ -98,11 +93,8 @@ function Header() {
                         </div>
                     </div>
 
-                    <div className='flex flex-row items-center gap-[30px] h-full'>
+                    <div className='flex flex-row items-center gap-[30px] h-full w-[25%]'>
                         <div className='flex flex-row items-center gap-[30px] h-full'>
-                            <div className='flex items-center h-full'>
-                                <a className='flex items-center border-b-4 border-transparent border-solid font-bold h-full text-[#fff] hover:border-[#454c53] cursor-pointer'>FRANCHISES</a>
-                            </div>
                             <div className='flex items-center h-full'>
                                 <a className='flex items-center border-b-4 border-transparent border-solid font-bold h-full text-[#fff] hover:border-[#454c53] cursor-pointer'>SHOPS</a>
                             </div>
@@ -117,21 +109,27 @@ function Header() {
                             </p>
                         </button>
 
-                        {state?.email ? (
-                            <div className='relative logout'>
-                                <p className='px-[24px] py-[8px] font-bold cursor-pointer text-[#fff]'>{state.email}</p>
+                        {state?.username ? (
+                            <div className='relative logout w-full text-center'>
+                                <p className='px-[12px] py-[8px] font-bold cursor-pointer text-[#fff]'>{state.username}</p>
                                 <div className="a-tooltip--type-1">
-                                    <button
-                                        onClick={handleLogout}
-                                        className=''>
-                                        LOGOUT
-                                    </button>
-
+                                    <div className='flex flex-col '>
+                                        <Link to={'/user/' + state.id}>
+                                            <button className='font-bold'>
+                                                User Infor
+                                            </button>
+                                        </Link>
+                                        <button
+                                            onClick={handleLogout}
+                                            className=''>
+                                            LOGOUT
+                                        </button>
+                                    </div>
                                 </div>
                             </div>
                         ) : (
-                            <Link to="/login">
-                                <div className='relative login'>
+                            <Link to="/login" className='w-full'>
+                                <div className='relative login text-center'>
                                     <a className='px-[24px] py-[8px] cursor-pointer'>
                                         <FontAwesomeIcon icon={faUser} className='text-[#fff] text-[20px]' />
                                     </a>

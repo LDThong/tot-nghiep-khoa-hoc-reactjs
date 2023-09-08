@@ -11,7 +11,8 @@ function Register() {
             {
                 email: data.email,
                 username: data.username,
-                password: data.password
+                password: data.password,
+                role: "User",
             }
         );
     }

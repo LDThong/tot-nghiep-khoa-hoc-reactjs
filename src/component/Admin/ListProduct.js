@@ -10,6 +10,7 @@ function ListProduct() {
   const { list, setList } = useContext(HomeContext);
   const [pageNumber, setPageNumber] = useState(1);
   const Navigate = useNavigate();
+  const [pages, setPages] = useState('');
 
   const handlePageNumber = () =>{
     setPageNumber(pageNumber+1);
@@ -18,6 +19,20 @@ function ListProduct() {
   const handlePageNumberBack = () => {
     setPageNumber(pageNumber-1);
   }
+
+  // const getQuantityProduct = async () => {
+  //   const res = await axios.get(
+  //     `http://localhost:8000/product/`
+  //   );
+
+  //   if (res.status === 201) {
+  //     setTotalProduct(res.data);
+  //     const calculatePages = totalProduct / 3;
+  //     const calculatePagesContinue = calculatePages + 0.4;
+  //     const resultCalculatePage = calculatePagesContinue.toFixed();
+  //     setPages(resultCalculatePage);
+  //   };
+  // };
 
   const getData = async () => {
     const response = await axios.get(
@@ -55,7 +70,7 @@ function ListProduct() {
   
   return (
 
-    <div className='flex w-full'>
+    <div className='flex h-full w-full'>
       <div className='w-1/5'>
         <NavAdmin />
       </div>
@@ -128,7 +143,7 @@ function ListProduct() {
               <p className='font-bold text-[20px]'>{pageNumber}</p>
               <button 
                 onClick={handlePageNumber} 
-                disabled={pageNumber === 10 ? true : false}
+                disabled={pageNumber === 2 ? true : false}
                 className='text-[25px]'
               >
                 <AiFillRightCircle />

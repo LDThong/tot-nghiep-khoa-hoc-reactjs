@@ -10,7 +10,7 @@ function Admin() {
 
     const getData = async () => {
         const response = await axios.get(
-            'http://localhost:8000/admin'
+            'http://localhost:8000/user'
         );
 
         if (response.status === 200) {
@@ -25,14 +25,17 @@ function Admin() {
             password: event.target.password.value,
         }
 
-        const foundUser = list.find(user => user.email === data.email && user.password === data.password)
+        const foundUser = list.find(user => user.email === data.email && user.password === data.password);
 
         if (foundUser) {
-            navigate('/admin/home');
+            if (foundUser.role === 'Admin') {
+                navigate('/admin/home');
+            }
         } else {
-            alert('Login Failed')
-        }
-    }
+            alert("You Are Not An Administrator!!");
+        };
+
+    };
 
     useEffect(() => {
         getData();

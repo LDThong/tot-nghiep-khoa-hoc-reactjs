@@ -19,6 +19,7 @@ import { ShopProvider } from "./context/ShopContext";
 import { Provider } from "react-redux";
 import { store } from "./store";
 import ViewCart from "./component/home/ViewCart";
+import UserInformation from "./component/home/UserInformation"
 
 const router = createBrowserRouter([
   {
@@ -88,6 +89,10 @@ const router = createBrowserRouter([
   {
     path: '/viewcart/',
     element: <ViewCart />
+  },
+  {
+    path: '/user/:id',
+    element: <UserInformation />
   }
 ])
 
