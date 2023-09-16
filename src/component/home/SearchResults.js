@@ -1,17 +1,15 @@
 import React, { useContext } from 'react';
 import Header from './Header';
 import Footer from './Footer';
-import { ProductContext } from '../../context/ProductContext';
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCaretRight } from '@fortawesome/free-solid-svg-icons';
 import { AiOutlineRight } from 'react-icons/ai';
 import { SearchContext } from '../../context/SearchContext';
-import { HomeContext } from '../../context/HomeContext';
 
 function NoSearchResults() {
-  const { product, setProduct } = useContext(ProductContext);
-  const { search, setSearch} = useContext(SearchContext);
+  const { product } = useContext(SearchContext);
+  const { search} = useContext(SearchContext);
 
   return (
     <div>

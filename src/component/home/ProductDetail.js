@@ -7,7 +7,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCaretRight } from '@fortawesome/free-solid-svg-icons';
 import { AiOutlineRight} from 'react-icons/ai';
 import { Link, useParams } from 'react-router-dom';
-import { useShopContext } from '../../context/ShopContext';
 import { useDispatch } from 'react-redux';
 import { addProductToCart } from '../../store/CartSlice';
 

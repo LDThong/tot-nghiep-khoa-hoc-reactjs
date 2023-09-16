@@ -5,8 +5,8 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { HomeProvider  } from './context/HomeContext';
 import { AuthProvider} from './context/authContext';
-import { ProductProvider } from './context/ProductContext';
 import { SearchProvider} from './context/SearchContext';
+import { OrderProvider } from './context/OrderContext';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -14,9 +14,9 @@ root.render(
     <HomeProvider>
       <AuthProvider>
         <SearchProvider>
-          <ProductProvider>
-            <App />
-          </ProductProvider>
+            <OrderProvider>
+              <App />
+            </OrderProvider>
         </SearchProvider>
       </AuthProvider>
     </HomeProvider>

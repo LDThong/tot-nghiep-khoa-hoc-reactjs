@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 
 function headerAdmin() {
   return (
-    <div className='w-full'>
+    <div className='h-auto w-full'>
       <div className='p-[30px_40px_30px_40px]'>
         <div className='flex justify-between w-full'>
           <div className='relative w-3/5'>

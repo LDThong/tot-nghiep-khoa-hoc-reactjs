@@ -15,11 +15,12 @@ import ShopTransformers from "./component/home/ShopTransformers";
 import ShopOnePiece from "./component/home/ShopOnePiece";
 import SearchResults from "./component/home/SearchResults";
 import EditProduct from "./component/Admin/EditProduct";
-import { ShopProvider } from "./context/ShopContext";
 import { Provider } from "react-redux";
 import { store } from "./store";
 import ViewCart from "./component/home/ViewCart";
-import UserInformation from "./component/home/UserInformation"
+import UserInformation from "./component/home/UserInformation";
+import OrderDetail from "./component/home/OrderDetail";
+import OrderComplete from "./component/home/OrderComplete";
 
 const router = createBrowserRouter([
   {
@@ -93,6 +94,14 @@ const router = createBrowserRouter([
   {
     path: '/user/:id',
     element: <UserInformation />
+  },
+  {
+    path: '/orderdetail/',
+    element: <OrderDetail />
+  },
+  {
+    path: '/ordercomplete/',
+    element: <OrderComplete />
   }
 ])
 

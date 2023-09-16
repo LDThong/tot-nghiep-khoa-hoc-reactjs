@@ -10,8 +10,8 @@ import { Link } from 'react-router-dom';
 
 function navAdmin() {
   return (
-    <div className='w-full'>
-      <div className='flex flex-col w-full h-screen bg-[#4D5E9B]'>
+    <div className='h-hull w-full'>
+      <div className='flex flex-col w-full h-[782px] bg-[#4D5E9B]'>
         <div className='flex flex-row w-full py-[30px]'>
           <div className='flex items-center justify-center gap-[20px] w-full'>
             <div className=''>

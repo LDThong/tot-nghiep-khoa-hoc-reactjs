@@ -14,6 +14,8 @@ function AddProduct() {
   const [nameProduct, setNameProduct] = useState('');
   const [typeModel, setTypeModel] = useState('');
   const [price, setPrice] = useState('');
+  const [inventory, setInventory] = useState('');
+  const quantity = 1;
   const navigate = useNavigate('');
 
   const metadata = {
@@ -51,8 +53,7 @@ function AddProduct() {
       () => {
         getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
           alert(
-            'Upload image successfully, download URL: ' +
-            downloadURL
+            'Upload Product successfully'
           );
           onUpload(downloadURL);
           setImage(null);
@@ -65,12 +66,16 @@ function AddProduct() {
 
   const onUpload = async (UrlImage) => {
     try {
+      const subTotal = price * quantity;
       const response = await axios.post(
         'http://localhost:8000/product', {
         imgs: UrlImage,
         nameProduct: nameProduct,
         typeModel: typeModel,
-        price: price,
+        inventory: +inventory,
+        quantity: +quantity,
+        price: +price,
+        subTotal: +subTotal,
         unit: "US$",
       },
       );
@@ -89,13 +94,13 @@ function AddProduct() {
   })
 
   return (
-    <div className='flex h-screen w-full'>
-      <div className='w-1/5'>
+    <div className='flex h-full w-full'>
+      <div className='h-full w-1/5'>
         <NavAdmin />
       </div>
       <div className='h-full w-4/5 bg-[#F8F8F8]'>
         <HeaderAdmin />
-        <div className='w-full px-[40px]'>
+        <div className='h-full w-full px-[40px]'>
           <div className='w-full'>
             <div className='flex justify-center items-center gap-[30px] p-[10px_0_20px_0]'>
               <BiSolidCartAdd className='text-[60px]' />
@@ -153,6 +158,12 @@ function AddProduct() {
                     <div className='absolute left-[390px]'>
                       <span>US $</span>
                     </div>
+                  </div>
+                  <div className='flex justify-center items-center'>
+                    <label>Inventory</label>
+                    <input 
+                      onChange={(e) => setInventory(e.target.value)}
+                      type='number'></input>
                   </div>
                   <div className='w-full flex justify-end gap-[20px] p-[10px_250px_0_0]'>
                     <button

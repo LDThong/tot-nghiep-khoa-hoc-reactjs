@@ -1,44 +1,105 @@
-import React, { useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import Header from './Header';
 import Footer from './Footer';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
-import { AiOutlineRight, AiFillCaretRight } from 'react-icons/ai';
+import { AiOutlineRight, AiFillCaretRight, AiOutlineDoubleRight, AiOutlineCaretDown, AiOutlineCaretUp } from 'react-icons/ai';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { PiNumberCircleOneFill, PiNumberCircleTwoFill, PiNumberCircleThreeFill, PiNumberCircleFourFill } from 'react-icons/pi';
 import { BsBoxSeam } from 'react-icons/bs';
 import { ImBin } from 'react-icons/im';
 import './App.css';
 import { deleteProduct } from '../../store/CartSlice';
+import { OrderContext } from '../../context/OrderContext';
+import axios from 'axios';
+import {RxTriangleRight} from 'react-icons/rx'
 
 function ViewCart() {
     const carts = useSelector((state) => state.cart.carts);
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    const [newQuantity, setNewQuantity] = useState(1);
+    const [cartItem, setCartItem] = useState(carts);
+    const {order, setOrder} = useContext(OrderContext);
+    const {total, setTotal} = useContext(OrderContext);
+    const [list, setList] = useState([]);
 
-    const [total, setTotal] = useState(0);
+    const getData = async () => {
+        const res = await axios.get(
+            'http://localhost:8000/product'
+        );
 
-    const increasingProduct = () => {
-        setNewQuantity(newQuantity + 1);
+        if (res.status === 200) {
+            setList(res.data);
+        };
     };
 
-    const reduceProduct = () => {
-        setNewQuantity(newQuantity - 1);
-        if (newQuantity === 0) {
-           navigator('/viewcart')
-        }
+    
+
+    const increasingProduct = (itemId) => {
+        const updateCart = cartItem.map((item)=>{
+            if (item.id === itemId) {
+                return {...item, quantity: item.quantity + 1, subTotal: (item.quantity) * (+item.price)}
+            }
+            return item;
+        });
+        setCartItem(updateCart);
+    };
+
+    const reduceProduct = (itemId) => {
+        const updateCart = cartItem.map((item)=>{
+            if (item.id === itemId) {
+                return {...item, quantity: item.quantity - 1}
+            }
+            return item;
+        })
+        setCartItem(updateCart);
     };
 
     const deleteProduct = () => {
         window.location.reload();
     }
 
-    const countTotal = (e) => {
-        const currentValue = total;
-        const newValue = currentValue + e;
-        setTotal(newValue)
+    const totalPrice = cartItem.reduce((total, item) => total + (item.price * item.quantity), 0);
+
+    const orderDetail = () => {
+        const user = window.localStorage.getItem('username');
+        if (user === null) {
+            navigate('/login')
+        } else {
+            let flag = true;
+            const filteredItems = [...cartItem].filter((item) => {
+                const remaining = item.inventory - item.quantity;
+                if (remaining < 0) {
+                   flag = false;
+                   alert('Product quantity is not enough! Please re-enter quantity.');
+                };
+                return true;
+            });
+            
+            if (flag) {
+                let quantityzero = true;
+                const newQuantity = [...cartItem].filter((item) => {
+                    if (item.quantity === 0) {
+                        quantityzero = false;
+                        alert('Product quantity cannot be 0 !!');
+                    };
+                    return true;
+                });
+
+                if (quantityzero) {
+                    setOrder(cartItem);
+                    setTotal(totalPrice);
+                    navigate('/orderdetail')
+                }
+            }
+
+        }
+        
     }
+
+    useEffect(() => {
+        getData();
+    }, [])
 
     return (
         <div>
@@ -61,22 +122,19 @@ function ViewCart() {
                                     <h1 className='text-[40px] text-[#303840] font-bold'>SHOPPING CART</h1>
                                 </div>
                             </div>
-                            <div className='flex w-[1140px] mx-auto bg-[#f8f8f8]'>
-                                <div className='relative flex justify-center items-center gap-[15px] w-[25%] py-[20px] bg-[#384450]'>
+                            <div className='flex w-[1140px] mx-auto bg-[#f8f8f8] items-center'>
+                                <div className='relative flex justify-center items-center gap-[15px] w-[33.33333333333333%] py-[20px] bg-[#384450]'>
                                     <PiNumberCircleOneFill className='text-[25px] text-[#fff]' />
                                     <span className='text-[#fff]'>SHOPPING CART</span>
-                                    {/* <AiFillCaretRight className='absolute right-[-64px] text-[93px] text-[#384450]'/> */}
+                                    <RxTriangleRight className='absolute right-[-99px] text-[190px] text-[#384450]' />
                                 </div>
-                                <div className='flex justify-center items-center w-[25%] gap-[15px] py-[20px]'>
+                                <div className='relative flex justify-center items-center w-[33.33333333333333%] gap-[15px] py-[20px]'>
                                     <PiNumberCircleTwoFill className='text-[25px] text-[#C8C8C8]' />
                                     <span className='text-[#303851]'>ORDER DETAILS</span>
+                                    <AiOutlineDoubleRight className='absolute right-[-64px] text-[95px] text-[#F0F0F0]' />
                                 </div>
-                                <div className='flex justify-center items-center w-[25%] gap-[15px] py-[20px]'>
+                                <div className='relative flex justify-center items-center w-[33.33333333333333%] gap-[15px] py-[20px]'>
                                     <PiNumberCircleThreeFill className='text-[25px] text-[#C8C8C8]' />
-                                    <span className='text-[#303851]'>CONFIRMATION</span>
-                                </div>
-                                <div className='flex justify-center items-center w-[25%] gap-[15px] py-[20px]'>
-                                    <PiNumberCircleFourFill className='text-[25px] text-[#C8C8C8]' />
                                     <span className='text-[#303851]'>ORDER COMPLETE</span>
                                 </div>
                             </div>
@@ -102,49 +160,56 @@ function ViewCart() {
                                             </div>
                                             <div className='flex-[0_0_100px] w-[100px] text-center font-semibold'>PRICE</div>
                                             <div className='flex-[0_0_100px] w-[100px] text-center font-semibold'>QUANTITY</div>
-                                            <div className='flex-[0_0_160px] w-[160px] ml-[32px] text-center font-semibold'>SUBTOTAIL</div>
+                                            <div className='flex-[0_0_160px] w-[160px] ml-[32px] text-center font-semibold'>SUBTOTAL</div>
                                             <div className='flex-[0_0_32px] w-[32px]'></div>
                                         </div>
                                     </div>
                                     <div className='border-b'>
-                                        {carts.map((item) =>  (
-                                                <div key={item.id}>
-                                                    <div className='flex items-center py-[16px] '>
-                                                        <div className='flex-[0_0_88px] w-[88px] h-[88px] mr-[24px]'>
-                                                            <Link to={'/productdetail/' + item.id} state={item}>
-                                                                <img className='h-full w-full' src={item.imgs}></img>
-                                                            </Link>
-                                                        </div>
-                                                        <div className='w-[100%]'>
-                                                            <Link to={'/productdetail/' + item.id} state={item}>
-                                                                <p className='text-[#303840]'>{item.nameProduct}</p>
-                                                            </Link>
-                                                        </div>
-                                                        <div className='flex items-baseline justify-center gap-[5px] text-[#303840] flex-[0_0_100px] w-[100px] font-semibold'>
-                                                            <span className='text-[12px]'>{item.unit}</span>
-                                                            <p className=''>{item.price}</p>
-                                                        </div>
-                                                        <div className='flex-[0_0_100px] w-[100px] text-center font-semibold'>
-                                                            <div className='flex gap-[10px]'>
-                                                                <p>{newQuantity}</p>
-                                                                <button type='button' onClick={increasingProduct}>+</button>
-                                                                <button type='button' onClick={reduceProduct}>-</button>
+                                        {cartItem.map((item) => {
+                                            return(
+                                            <div key={item.id}>
+                                                <div className='flex items-center py-[16px] '>
+                                                    <div className='flex-[0_0_88px] w-[88px] h-[88px] mr-[24px]'>
+                                                        <Link to={'/productdetail/' + item.id} state={item}>
+                                                            <img className='h-full w-full' src={item.imgs}></img>
+                                                        </Link>
+                                                    </div>
+                                                    <div className='w-[100%]'>
+                                                        <Link to={'/productdetail/' + item.id} state={item}>
+                                                            <p className='text-[#303840]'  >{item.nameProduct}</p>
+                                                        </Link>
+                                                    </div>
+                                                    <div className='flex items-baseline justify-center gap-[5px] text-[#303840] flex-[0_0_100px] w-[100px] font-semibold'>
+                                                        <span className='text-[12px]'>{item.unit}</span>
+                                                        <p className=''>{item.price}</p>
+                                                    </div>
+                                                    <div className='flex-[0_0_100px] w-[100px] text-center font-semibold'>
+                                                        <div className='flex justify-center items-center gap-[10px]'>
+                                                            <p>{item.quantity}</p>
+                                                            <div className='flex flex-col gap-[5px]'>
+                                                                <button type='button' onClick={() => increasingProduct(item.id)}>
+                                                                    <AiOutlineCaretUp className='text-[15px]'/>
+                                                                </button>
+                                                                <button type='button' onClick={() => reduceProduct(item.id)}>
+                                                                    <AiOutlineCaretDown />
+                                                                </button>
                                                             </div>
                                                         </div>
-                                                        <div className='flex items-baseline justify-center gap-[5px] text-[#303840] flex-[0_0_160px] w-[160px] ml-[32px] font-semibold'>
-                                                            <span className='text-[12px]'>{item.unit}</span>
-                                                            <p onChange={e => countTotal(e.target.value)}>{item.price * newQuantity}</p>
-                                                        </div>
-                                                        <div className='flex-[0_0_32px] w-[32px] text-center'>
-                                                            <button 
-                                                                type='button'
-                                                                onClick={deleteProduct}>
-                                                                <ImBin className='text-[#C8C8C8] text-[18px]' />
-                                                            </button>
-                                                        </div>
+                                                    </div>
+                                                    <div className='flex items-baseline justify-center gap-[5px] text-[#303840] flex-[0_0_160px] w-[160px] ml-[32px] font-semibold'>
+                                                        <span className='text-[12px]'>{item.unit}</span>
+                                                        <p >{item.price * item.quantity}</p>
+                                                    </div>
+                                                    <div className='flex-[0_0_32px] w-[32px] text-center'>
+                                                        <button
+                                                            type='button'
+                                                            onClick={deleteProduct}>
+                                                            <ImBin className='text-[#C8C8C8] text-[18px]' />
+                                                        </button>
                                                     </div>
                                                 </div>
-                                            )
+                                            </div>
+                                        )}
                                         )}
                                     </div>
                                     <div className='flex justify-end mt-[50px] w-full'>
@@ -153,11 +218,13 @@ function ViewCart() {
                                                 <h1 className='font-bold text-[18px]'>ITEM TOTAL (EXCL. TAX)</h1>
                                                 <div className='flex items-baseline gap-[5px]'>
                                                     <span className='text-[20px]'>US$</span>
-                                                    <p className='text-[30px] font-medium'>{total}</p>
+                                                    <p className='text-[30px] font-medium' >{totalPrice}</p>
                                                 </div>
                                             </div>
                                             <div className='flex justify-end w-full pt-[20px]'>
-                                                <button className='relative flex items-center p-[10px_45px_10px_45px] bg-[#F82888] font-medium text-[#fff] rounded-[20px]'>
+                                                <button 
+                                                    onClick={orderDetail}
+                                                    className='relative flex items-center p-[10px_45px_10px_45px] bg-[#F82888] font-medium text-[#fff] rounded-[20px]'>
                                                     PROCEED TO CHECKOUT
                                                     <AiFillCaretRight className='absolute right-[12px]' />
                                                 </button>
@@ -168,7 +235,7 @@ function ViewCart() {
 
                             </div>
                         ) : (
-                            <div className='pb-[80px] h-auto bg-[#f8f8f8]'>
+                            <div className='p-[40px_0_80px_0] h-auto bg-[#f8f8f8]'>
                                 <div className='w-[1140px] mx-auto bg-[#fff] p-[40px_40px_20px_40px] shadow-[0_1px_2px_0_rgba(48,56,64,0.16)]'>
                                     <div>
                                         <div className='p-[18px_23px_18px_23px] bg-[rgba(248,40,136,0.08)] text-center'>
@@ -187,4 +254,4 @@ function ViewCart() {
     )
 }
 
-export default ViewCart
+export default ViewCart         

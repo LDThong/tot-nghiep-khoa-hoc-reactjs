@@ -14,13 +14,14 @@ const initialState = {
 };
 const AuthProvider = ({ children }) => {
     const [state, setState] = useState(initialState); // Khởi tạo trạng thái và hàm để cập nhật trạng thái
+    const [idUser, setIdUser] = useState([]);
 
     useEffect(() => {
         const usernameState = window.localStorage.getItem('username');
         setState({...state, username: usernameState});
     }, []);
 
-    return <Provider value={{ state, setState}}>{children}</Provider>
+    return <Provider value={{ state, setState, idUser, setIdUser}}>{children}</Provider>
 };
 
 export { AuthContext, AuthProvider };

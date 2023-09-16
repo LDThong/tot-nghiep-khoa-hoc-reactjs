@@ -7,25 +7,18 @@ import axios from 'axios';
 import './App.css';
 import { HomeContext } from '../../context/HomeContext';
 import { AuthContext } from '../../context/authContext';
-import { ProductContext } from '../../context/ProductContext';
 import { SearchContext } from '../../context/SearchContext';
-import { useShopContext } from '../../context/ShopContext';
 import { useDispatch, useSelector } from 'react-redux';
 import { removeProductToCart, deleteProductToCart } from '../../store/CartSlice';
 
 function Header() {
     const { state, setState } = useContext(AuthContext);
     const { list, setList} = useContext(HomeContext);
-    const { product, setProduct} = useContext(ProductContext);
+    const { product, setProduct} = useContext(SearchContext);
     const { search, setSearch} = useContext(SearchContext);
-    // const { carts} = useShopContext();
     const carts = useSelector((state) => state.cart.carts);
     const dispatch = useDispatch();
     const Navigate = useNavigate();
-
-    // const removeToCart = (product) => {
-    //     dispatch(removeProductToCart(product))
-    // }
 
     const handleLogout = (product) => {
         setState({ email: '', password: '', username: '' });

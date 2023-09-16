@@ -101,3 +101,9 @@
   width: 4px;
   background: #a09880;
 }
+
+.footer {
+  background-image: url(/public/images/banner-footer.png);
+  background-size: cover;
+  background-repeat: no-repeat;
+}

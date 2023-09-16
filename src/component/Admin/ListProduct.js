@@ -76,7 +76,7 @@ function ListProduct() {
       </div>
       <div className='flex flex-col w-4/5 bg-[#F8F8F8]'>
         <HeaderAdmin />
-        <div className='relative flex flex-col w-full h-full px-[40px]'>
+        <div className='relative flex flex-col w-full h-[82%] px-[40px]'>
           <div className=''>
             <div className='border'>
               <div className='flex flex-row w-full border-b '>

@@ -4,7 +4,7 @@ import HeaderAdmin from '../Admin/headerAdmin'
 
 function adninHome() {
   return (
-    <div className='flex h-screen w-full'>
+    <div className='flex h-auto w-full'>
         <div className='w-1/5'>
           <NavAdmin />
         </div>

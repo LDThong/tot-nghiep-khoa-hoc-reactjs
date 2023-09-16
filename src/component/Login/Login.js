@@ -8,6 +8,7 @@ function Login() {
     const {list, setList} = useContext(HomeContext);
     const navigate = useNavigate();
     const {state, setState} = useContext(AuthContext);
+    const {idUser, setIdUser} = useContext(AuthContext)
 
     const getData = async () => {
         const response = await axios.get(
@@ -30,11 +31,10 @@ function Login() {
         const foundUser = list.find(user => user.email === data.email && user.password === data.password);
 
         if (foundUser) {
-            alert('Login successful');
             setState(foundUser);
+            setIdUser(foundUser);
             window.localStorage.setItem('username', foundUser.username);
             navigate('/')
-            
         } else {
             alert('Login failed');
         }

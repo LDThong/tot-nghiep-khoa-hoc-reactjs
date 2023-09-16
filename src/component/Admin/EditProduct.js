@@ -14,30 +14,9 @@ function EditProduct() {
     const [progress, setProgress] = useState(0);
     const [editNameProduct, setEditNameProduct] = useState('');
     const [editTypeModel, setEditTypeModel] = useState('');
-    const [editPrice, setEditPrice] = useState(''); 
-    // const [baseImage, setBaseImage] = useState('');
+    const [editPrice, setEditPrice] = useState('');
+    const [editInventory, setEditInventory] = useState('');
 
-    // const uploadImage = async (e) => {
-    //     const file = e.target.files[0];
-    //     const base64 = await convertBase64(file);
-    //     console.log(base64);
-    //     setBaseImage(base64);
-    // }
-
-    // const convertBase64 = (file) => {
-    //     return new Promise((resolve, reject) => {
-    //         const fileReader = new FileReader();
-    //         fileReader.readAsDataURL(file);
-
-    //         fileReader.onload = () => {
-    //             resolve(fileReader.result);
-    //         };
-
-    //         fileReader.onerror = (error) => {
-    //             reject(error);
-    //         }
-    //     })
-    // };
     const metadata = {
         contentType: 'image/jpeg',
       };
@@ -94,18 +73,6 @@ function EditProduct() {
         };
     };
 
-    // const onSubmit = (event) => {
-    //     event.preventDefault();
-    //     const data = {
-    //         imgs: baseImage,
-    //         nameProduct: event.target.nameProduct.value,
-    //         typeModel: event.target.typeModel.value,
-    //         price: event.target.price.value,
-    //         unit: "US$",
-    //     };
-    //     editProduct(data);
-    // }
-
     const editProduct = async (UrlImage) => {
         const response = await axios.patch(
             'http://localhost:8000/product/' + id,
@@ -113,7 +80,8 @@ function EditProduct() {
                 imgs: UrlImage,
                 nameProduct: editNameProduct,
                 typeModel: editTypeModel,
-                price: editPrice,
+                price: +editPrice,
+                inventory: +editInventory,
                 unit: "US$",
             }
         );
@@ -156,6 +124,11 @@ function EditProduct() {
                                     <div className='flex justify-center gap-[10px] w-[45%] px-[20px] py-[10px] border rounded-[10px] bg-[#fff]'>
                                         <span>{product.unit}</span>
                                         <p>{product.price}</p>
+                                    </div>
+                                </div>
+                                <div className='flex justify-center gap-[10px]'>
+                                    <div className='flex justify-center gap-[10px] w-[45%] px-[20px] py-[10px] border rounded-[10px] bg-[#fff]'>
+                                        <p>{product.inventory}</p>
                                     </div>
                                 </div>
                             </div>
@@ -211,12 +184,21 @@ function EditProduct() {
                                                 <span>US $</span>
                                             </div>
                                         </div>
+                                        <div className='flex items-center justify-center gap-[65px] w-full'>
+                                            <label className='font-bold'>Edit Inventory:</label>
+                                            <input 
+                                                name='inventory'
+                                                onChange={(e) => setEditInventory(e.target.value)}
+                                                className='px-[20px] py-[10px] w-[40%] border rounded-[10px]' placeholder=''>
+                                                    
+                                            </input>
+                                        </div>
                                         <div className='w-full flex justify-end p-[10px_100px_0_0]'>
                                             <button 
                                                 type='button'
                                                 onClick={handleUpload}
                                                 className='p-[10px_50px] bg-[#1877F2] text-[#fff] font-bold rounded-[10px]'>
-                                                Edit
+                                                Save Change
                                             </button>
                                         </div>
                                     </div>
