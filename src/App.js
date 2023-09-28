@@ -21,8 +21,15 @@ import ViewCart from "./component/home/ViewCart";
 import UserInformation from "./component/home/UserInformation";
 import OrderDetail from "./component/home/OrderDetail";
 import OrderComplete from "./component/home/OrderComplete";
+import YourOrder from "./component/home/YourOrder";
+import PageUpdateInfo from "./component/home/PageUpdateInfo";
+import PageEditInfo from "./component/home/PageEditInfo";
+import UserManagement from "./component/Admin/UserManagement";
+import ListOrder from "./component/Admin/ListOrder";
+import ShopMobile from "./component/home/ShopMobile";
 
 const router = createBrowserRouter([
+  // ------------ User -------------
   {
     path: '/',
     element: <Home />
@@ -36,24 +43,8 @@ const router = createBrowserRouter([
     element: <Register />
   },
   {
-    path: '/admin/',
-    element: <Admin />
-  },
-  {
-    path: '/admin/home/',
-    element: <AdminHome />
-  },
-  {
-    path: '/admin/home/listproduct',
-    element: <ListProduct />
-  },
-  {
-    path: '/admin/home/addproduct',
-    element: <AddProduct />
-  },
-  {
-    path: '/productdetail/:id',
-    element: <ProductDetail />
+    path: '/shops/',
+    element: <ShopMobile />
   },
   {
     path: '/shopmarvel/',
@@ -102,6 +93,47 @@ const router = createBrowserRouter([
   {
     path: '/ordercomplete/',
     element: <OrderComplete />
+  },
+  {
+    path: '/user/:id/orders/',
+    element: <YourOrder />
+  },
+  {
+    path: '/user/:id/updateinfo/',
+    element: <PageUpdateInfo />
+  },
+  {
+    path: '/user/:id/editinfo/',
+    element: <PageEditInfo />
+  },
+  // ------------- Admin -----------------
+  {
+    path: '/admin/',
+    element: <Admin />
+  },
+  {
+    path: '/admin/home/',
+    element: <AdminHome />
+  },
+  {
+    path: '/admin/home/listproduct',
+    element: <ListProduct />
+  },
+  {
+    path: '/admin/home/addproduct',
+    element: <AddProduct />
+  },
+  {
+    path: '/productdetail/:id',
+    element: <ProductDetail />
+  },
+  {
+    path: '/admin/home/usermanagements/',
+    element: <UserManagement />
+  },
+  {
+    path: '/admin/home/listorder/',
+    element: <ListOrder />
   }
 ])
 
@@ -113,4 +145,4 @@ function App() {
   )
 }
 
-export default App;
+export default App

@@ -12,14 +12,14 @@ import { addProductToCart } from '../../store/CartSlice';
 
 function ProductDetail() {
 	let { id } = useParams();
-
     const [ detail, setDetail] = useState({});
     // const { addProductToCart} = useShopContext();
+    // const [quantityProduct, setQuantityProduct] = useState(detail.quantity);
     const dispatch = useDispatch();
-    const onAdd = (newProduct) => {
-        dispatch(addProductToCart(newProduct));
-    };
 
+    const cartItem = JSON.parse(localStorage.getItem("cartItem")) || [];
+    const productAdd = {id: detail.id, quantity: detail.quantity, inventory: detail.inventory};
+    
     const getData = async () => {
         const response = await axios.get(
             'http://localhost:8000/product/' + id
@@ -34,50 +34,68 @@ function ProductDetail() {
         getData();
     }, []);
 
+    const onAdd = (newProduct) => {
+        const productExists = cartItem.includes(productAdd)
+        if (!productExists) {
+            cartItem.push(productAdd);
+            localStorage.setItem("cartItem", JSON.stringify(cartItem));
+            dispatch(addProductToCart(newProduct));
+            
+        }
+    };
+
+
   return (
     <div>
         <Header />
-        <div className='mt-[30px] h-full bg-[#F8F8F8] p-[50px_0_50px_0]'>
-            <div className='flex items-center gap-[10px] w-[1140px] mx-auto p-[10px_0_15px_0]'>
-                <Link to={'/'}>
-                    <h1>Home</h1>
+        <div className='lg:mt-[30px] max-sm:mt-[20px] h-full bg-[#F8F8F8] p-[50px_0_50px_0]'>
+            <div className='flex items-center lg:gap-[10px] max-sm:gap-[5px] lg:p-[10px_0_15px_0] w-full
+                max-sm:p-[7px_12px_7px_12px]'>
+                <Link to={'/'}> 
+                    <h1 className='max-sm:text-[12px]'>HOME</h1>
                 </Link>
-                <AiOutlineRight className='text-[#CDCDCD]'/>
-                    <p>{detail.typeModel}</p>
-                <AiOutlineRight className='text-[#CDCDCD]'/>
-                <p className='font-bold'>{detail.nameProduct}</p>
+                <AiOutlineRight className='text-[#CDCDCD] max-sm:text-[15px]'/>
+                    <p className='max-sm:text-[12px] uppercase'>{detail.typeModel}</p>
+                <AiOutlineRight className='text-[#CDCDCD] max-sm:text-[15px]'/>
+                <p className='font-bold max-sm:text-[12px]'>{detail.nameProduct}</p>
             </div>
             {detail && (
                 <div 
-                    onClick={() => onAdd(detail)}
-                    className='w-[1140px] mx-auto bg-[#fff] h-full'>
-                    <div className='flex flex-row gap-[64px] p-[48px] w-full h-full'>
-                        <div className='w-[56%] h-full'>
+                    className='lg:w-[1140px] lg:mx-auto max-sm:mx-[12px] bg-[#fff] h-full'>
+                    <div className='flex w-full h-full
+                        lg:flex-row lg:gap-[64px] lg:p-[48px]
+                        max-sm:flex-col max-sm:pb-[25px] max-sm:shadow-[0_1px_2px_0_rgba(48,56,64,0.16)]'>
+                        <div className='lg:w-[56%] lg:h-full max-sm:w-full'>
                             <div className='w-full'>
                                 <img src={detail.imgs} className='w-full'></img>
                             </div>
                         </div>
-                        <div className='w-[44%] relative'>
-                            <div className='w-full'>
-                                <h1 className='font-medium m-[-9px_0_23px_0] leading-[1.3125] tracking-[0em] text-[32px] text-black'>{detail.nameProduct}</h1>
-                                <p className='mb-[20px]'>
-                                    <span className='text-[#f82888] text-[24px] leading-[1]'>{detail.unit}</span>
-                                    <span className='text-[#f82888] m-[0_2px_0_6px] text-[35px] leading-[1] tracking-[0.04em] font-semibold'>{detail.price}</span>
+                        <div className='lg:w-[44%] lg:relative'>
+                            <div className='w-full max-sm:px-[12px]'>
+                                <h1 className='font-medium lg:m-[-9px_0_23px_0] lg:leading-[1.3125] lg:text-[32px] text-black
+                                    max-sm:text-[25px] max-sm:p-[15px_0_0px_0]'
+                                >{detail.nameProduct}</h1>
+                                <p className='lg:mb-[20px] max-sm:mb-[7px] max-sm:flex max-sm:gap-[5px] max-sm:items-baseline'>
+                                    <span className='text-[#f82888] lg:text-[24px] lg:leading-[1]
+                                        max-sm:text-[18px]'
+                                    >{detail.unit}</span>
+                                    <span className='text-[#f82888] lg:m-[0_2px_0_6px] lg:text-[35px] lg:leading-[1] lg:tracking-[0.04em] font-semibold
+                                        max-sm:text-[28px]'
+                                    >{detail.price}</span>
                                 </p>
-                                <div className='flex items-center gap-[30px]'>
+                                <div className='flex items-center gap-[30px] max-sm:mb-[15px]'>
                                     <span className='font-bold text-[20px]'>SHOP :</span>
                                     <span className='text-[20px] text-[#00a8e8]'>{detail.typeModel}</span>
                                 </div>
-                                <form>
-                                    <div className='absolute bottom-0 w-full'>
-                                        <button 
-                                            type='button'
-                                            className='flex justify-center items-center w-full p-[14px_24px] rounded-[24px] bg-[#F82888] font-bold text-[#fff]'>
-                                            <span>Add To Cart</span>
-                                            <FontAwesomeIcon icon={faCaretRight} className='absolute right-[19px] text-[20px]'/>
-                                        </button>
-                                    </div>
-                                </form>
+                                <div className='lg:absolute bottom-0 w-full'>
+                                    <button
+                                        type='button'
+                                        onClick={() => onAdd(detail)}
+                                        className='flex justify-center items-center w-full p-[14px_24px] rounded-[24px] bg-[#F82888] font-bold text-[#fff]'>
+                                        <span>Add To Cart</span>
+                                        <FontAwesomeIcon icon={faCaretRight} className='absolute lg:right-[19px] max-sm:right-[45px] text-[20px]' />
+                                    </button>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -89,4 +107,4 @@ function ProductDetail() {
   )
 }
 
-export default ProductDetail
+export default ProductDetail   

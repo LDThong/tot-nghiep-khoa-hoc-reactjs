@@ -1,6 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import NavAdmin from './navAdmin';
-import HeaderAdmin from './headerAdmin';
+import NavAdmin from './NavAdmin';
 import { HomeContext } from '../../context/HomeContext';
 import axios from 'axios';
 import {AiFillDelete, AiTwotoneEdit, AiFillLeftCircle, AiFillRightCircle} from 'react-icons/ai';
@@ -70,48 +69,50 @@ function ListProduct() {
   
   return (
 
-    <div className='flex h-full w-full'>
-      <div className='w-1/5'>
-        <NavAdmin />
-      </div>
-      <div className='flex flex-col w-4/5 bg-[#F8F8F8]'>
-        <HeaderAdmin />
-        <div className='relative flex flex-col w-full h-[82%] px-[40px]'>
+    <div className='bg-[#F8F8F8] '>
+      <NavAdmin />
+      <div className='mt-[120px] pt-[25px] pb-[15px]'>
+        <div className='relative flex flex-col w-full pb-[50px] px-[40px]'>
           <div className=''>
             <div className='border'>
               <div className='flex flex-row w-full border-b '>
-                <div className='w-[18%] bg-[#fff] text-center py-[15px] font-bold text-[20px] bg-yellow-400'>
+                <div className='w-[15%] bg-[#fff] text-center py-[15px] font-bold text-[20px] bg-yellow-400'>
                   <h1>Image</h1>
                 </div>
-                <div className='w-[36%] bg-[#fff] text-center py-[15px] font-bold text-[20px] bg-yellow-400'>
+                <div className='w-[37%] bg-[#fff] text-center py-[15px] font-bold text-[20px] bg-yellow-400'>
                   <p>Name Product</p>
                 </div>
-                <div className='w-[14%] bg-[#fff] text-center py-[15px] font-bold text-[20px] bg-yellow-400'>
+                <div className='w-[12%] bg-[#fff] text-center py-[15px] font-bold text-[20px] bg-yellow-400'>
                   <p>Type Model</p>
                 </div>
-                <div className='w-[14%] bg-[#fff] text-center py-[15px] font-bold text-[20px] bg-yellow-400'>
+                <div className='w-[10%] bg-[#fff] text-center py-[15px] font-bold text-[20px] bg-yellow-400'>
                   <p>Price</p>
                 </div>
-                <div className='w-[18%] bg-[#fff] text-center py-[15px] font-bold text-[20px] bg-yellow-400'>
+                <div className='w-[9%] bg-[#fff] text-center py-[15px] font-bold text-[20px] bg-yellow-400'>
+                  <p>Inventory</p>
+                </div>
+                <div className='w-[17%] bg-[#fff] text-center py-[15px] font-bold text-[20px] bg-yellow-400'>
                   <p>Edit Product</p>
                 </div>
               </div>
               {list.map((item) => (
                 <div key={item} className='flex flex-row bg-[#fff] w-full'>
-                  <div className='flex justify-center items-center p-[20px] w-[18%] border-r border-b'>
+                  <div className='flex justify-center items-center p-[20px] w-[15%] border-r border-b'>
                     <img className='w-[70%] h-[116px]' src={item.imgs}></img>
                   </div>
-                  <div className='flex items-center px-[15px] w-[36%] border-r border-b'>
+                  <div className='flex items-center px-[15px] w-[37%] border-r border-b'>
                     <p className=''>{item.nameProduct}</p>
                   </div>
-                  <div className='flex items-center px-[15px] w-[14%] border-r border-b'>
+                  <div className='flex items-center px-[15px] w-[12%] border-r border-b'>
                     <p>{item.typeModel}</p>
                   </div>
-                  <div className='flex items-center px-[15px] w-[14%] border-r border-b'>
+                  <div className='flex items-center px-[15px] w-[10%] border-r border-b'>
                     <p>{item.unit} {item.price}</p>
                   </div>
-
-                  <div className='flex items-center gap-[5px] px-[20px] w-[18%] border-b'>
+                  <div className='flex justify-center items-center px-[15px] w-[9%] border-r border-b'>
+                    <p>{item.inventory}</p>
+                  </div>
+                  <div className='flex items-center gap-[5px] px-[20px] w-[17%] border-b'>
                     <div className='bg-red-500 p-[5px_10px] rounded-[20px]'>
                       <button 
                         onClick={() => onDelete(item.id)}
@@ -132,7 +133,7 @@ function ListProduct() {
                 </div>
               ))}
             </div>
-            <div className='absolute bottom-[30px] right-[40px] flex items-center gap-[20px]'>
+            <div className='absolute bottom-[0px] right-[40px] flex items-center gap-[20px]'>
               <button 
                 onClick={handlePageNumberBack} 
                 disabled={pageNumber === 1 ? true : false}
@@ -157,4 +158,4 @@ function ListProduct() {
   )
 }
 
-export default ListProduct
+export default ListProduct          

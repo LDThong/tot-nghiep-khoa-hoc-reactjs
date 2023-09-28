@@ -32,25 +32,25 @@ function ShopNaruto() {
   return (
     <div className='bg-[#F8F8F8]'>
         <Header />
-        <div className='mt-[70px] w-[1140px] mx-auto h-full pb-[100px]'>
-                <div className='flex items-center gap-[10px] w-full pt-[10px]'>
+        <div className='mt-[70px] lg:w-[1140px] lg:mx-auto h-full pb-[100px] max-sm:px-[12px]'>
+                <div className='flex items-center gap-[10px] w-full pt-[10px] '>
                     <Link to={'/'}>
-                        <h1>Home</h1>
+                        <h1 className='max-sm:text-[10px]'>HOME</h1>
                     </Link>
-                    <AiOutlineRight className='text-[#CDCDCD]' />
-                    <p className='font-medium'>Naruto</p>
+                    <AiOutlineRight className='text-[#CDCDCD] max-sm:text-[12px]' />
+                    <p className='font-medium max-sm:text-[10px]'>NARUTO</p>
                 </div>
-                <div className='flex items-center gap-[20px]'>
+                <div className='flex items-center lg:gap-[20px]'>
                     <div className='py-[20px] w-[15%]'>
-                        <h1 className='font-bold text-[35px] text-[#303840]'>Store</h1>
+                        <h1 className='font-bold lg:text-[35px] max-sm:text-[30px] text-[#303840]'>Store</h1>
                     </div>
-                    <div className='flex items-end gap-[10px] w-[85%]'>
+                    <div className='lg:block max-sm:hidden flex items-end gap-[10px] w-[85%]'>
                         <p className='font-bold text-[20px]'>{list.length}</p>
                         <span className='text-[15px]'>Products</span>
                     </div>
                 </div>
-                <div className='flex w-full gap-[20px]'>
-                    <div className='w-[15%]'>
+                <div className='flex w-full lg:gap-[20px] max-sm:flex-col'>
+                    <div className='lg:w-[15%] max-sm:w-full'>
                         <div className='flex flex-col border bg-[#fff]'>
                             <div className='flex items-center gap-[10px] p-[10px_0_10px_15px] border-b bg-[#F9C200]'>
                                 <img className='w-[25px]' src='/images/icon-naruto.png'></img>
@@ -88,7 +88,7 @@ function ShopNaruto() {
                             </Link>
                         </div>
                     </div>
-                    <div className='grid grid-cols-4 w-[85%]'>
+                    <div className='lg:block max-sm:hidden lg:grid lg:grid-cols-4 lg:w-[85%]'>
                         {list.map((item) => (
                             <div key={item} className='item relative border border-solid bg-[#fff] p-[37px_36px_24px_36px]'>
                                 <a className=''>
@@ -117,6 +117,30 @@ function ShopNaruto() {
                                 </div>
                             </div>
                         ))}
+                    </div>
+                    
+                    <div className='lg:hidden max-sm:block'>
+                        <div className='flex items-end gap-[10px] w-full p-[15px]'>
+                            <p className='font-bold text-[20px]'>{list.length}</p>
+                            <span className='text-[15px]'>Products</span>
+                        </div>
+
+                        <div className='max-sm:flex max-sm:flex-col max-sm:grid max-sm:grid-cols-2 max-sm:w-full'>
+                            {list.map((item) => (
+                                <div key={item} className='item relative border border-solid bg-[#fff] p-[20px]'>
+                                    <Link to={'/productdetail/' + item.id} state={item}>
+                                        <img
+                                            className='w-[120px] h-[120px]'
+                                            src={item.imgs} alt=''>
+                                        </img>
+                                        <div className='h-[50px] overflow-hidden mt-[14px]'>
+                                            <p className='nameP'>{item.nameProduct}</p>
+                                        </div>
+                                        <span className='font-light'>{item.unit} {item.price}</span>
+                                    </Link>
+                                </div>
+                            ))}
+                        </div>
                     </div>
                 </div>
             </div>

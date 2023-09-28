@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import NavAdmin from './navAdmin';
-import HeaderAdmin from './headerAdmin';
+import NavAdmin from './NavAdmin';
 import { BiSolidCartAdd } from 'react-icons/bi';
 import { MdAddPhotoAlternate } from 'react-icons/md';
 import axios from 'axios';
@@ -94,12 +93,9 @@ function AddProduct() {
   })
 
   return (
-    <div className='flex h-full w-full'>
-      <div className='h-full w-1/5'>
-        <NavAdmin />
-      </div>
-      <div className='h-full w-4/5 bg-[#F8F8F8]'>
-        <HeaderAdmin />
+    <div className='bg-[#F8F8F8]'>
+      <NavAdmin />
+      <div className='mt-[120px]'>
         <div className='h-full w-full px-[40px]'>
           <div className='w-full'>
             <div className='flex justify-center items-center gap-[30px] p-[10px_0_20px_0]'>
@@ -159,11 +155,13 @@ function AddProduct() {
                       <span>US $</span>
                     </div>
                   </div>
-                  <div className='flex justify-center items-center'>
-                    <label>Inventory</label>
+                  <div className='flex justify-center items-center gap-[20px] w-full'>
+                    <label className='font-bold text-[18px] w-[15%]'>Inventory</label>
                     <input 
                       onChange={(e) => setInventory(e.target.value)}
-                      type='number'></input>
+                      type='number'
+                      className='px-[20px] py-[10px] w-[40%] border rounded-[10px]'  
+                    ></input>
                   </div>
                   <div className='w-full flex justify-end gap-[20px] p-[10px_250px_0_0]'>
                     <button

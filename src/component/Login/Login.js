@@ -8,7 +8,6 @@ function Login() {
     const {list, setList} = useContext(HomeContext);
     const navigate = useNavigate();
     const {state, setState} = useContext(AuthContext);
-    const {idUser, setIdUser} = useContext(AuthContext)
 
     const getData = async () => {
         const response = await axios.get(
@@ -22,7 +21,6 @@ function Login() {
 
     const onLogin = (event) => {
         event.preventDefault();
-        console.log(list);
         const data = {
             email: event.target.email.value,
             password: event.target.password.value,
@@ -32,8 +30,11 @@ function Login() {
 
         if (foundUser) {
             setState(foundUser);
-            setIdUser(foundUser);
             window.localStorage.setItem('username', foundUser.username);
+            window.localStorage.setItem('id', foundUser.id);
+            window.localStorage.setItem('email', foundUser.email);
+            window.localStorage.setItem('fullName', foundUser.fullName);
+            window.localStorage.setItem('phoneNumber', foundUser.phoneNumber)
             navigate('/')
         } else {
             alert('Login failed');
@@ -46,19 +47,20 @@ function Login() {
 
     return (
         <div className='bg-[#F8F8F8]'>
-            <div className='container flex flex-row w-full rounded-[16px] p-[20px] '>
-                <div className='w-1/2'>
+            <div className='lg:container lg:flex lg:flex-row w-full lg:rounded-[16px] lg:p-[20px] '>
+                <div className='lg:w-1/2 max-sm:w-full'>
                     <Link to={'/'}>
-                        <div className='flex items-center h-[5%]'>
-                            <img className='w-1/5 h-[55px] rounded-[15px]' src='/images/logoFooter.png'></img>
+                        <div className='flex items-center h-[5%] max-sm:justify-center max-sm:py-[10px]'>
+                            <img className='lg:w-1/5 max-sm:w-[35%] h-[55px] rounded-[15px]' src='/images/logoFooter.png'></img>
                         </div>
                     </Link>
                     <div className='flex flex-col h-[90%] justify-center items-center w-full'>
-                        <div className='flex flex-col p-[30px_40px] w-3/5 gap-[24px] bg-[#fff] rounded-[25px]'>
+                        <div className='flex flex-col p-[30px_40px] gap-[24px] bg-[#fff] rounded-[25px]
+                            lg:w-3/5 max-sm:w-[95%] max-sm:shadow-[0px_1px_2px_rgba(48,56,64,.16)]'>
                             <div className='flex flex-col items-center gap-[24px]'>
                                 <div className='flex items-center justify-between w-full'>
                                     <p className='text-[24px] font-bold'>Login</p>
-                                    <span className='text-[16px] font-normal text-[#0098EA]'>List</span>
+                                    <span className='lg:block max-sm:hidden text-[16px] font-normal text-[#0098EA]'>List</span>
                                 </div>
                                 <form className='flex flex-col gap-[16px] w-full' onSubmit={onLogin}>
                                     <div className='w-full leading-[40px]'>
@@ -125,7 +127,7 @@ function Login() {
                         <p className='text-[gray]'>© 2021 Travling. All Rights Reserved</p>
                     </div>
                 </div>
-                <div className='w-1/2 p-[15px]'>
+                <div className='lg:w-1/2 lg:p-[15px] lg:block max-sm:hidden'>
                     <img className='w-full rounded-[35px]' src='/images/logoLogin.png'></img>
                 </div>
             </div>

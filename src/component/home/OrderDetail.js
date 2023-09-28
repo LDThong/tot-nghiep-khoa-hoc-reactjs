@@ -11,76 +11,61 @@ import axios from 'axios';
 import { useDispatch } from 'react-redux';
 import { removeProductToCart, deleteProductToCart } from '../../store/CartSlice';
 import { AuthContext } from '../../context/authContext';
+import {FaCaretRight} from 'react-icons/fa6';
 
 function OrderDetail() {
     const {order} = useContext(OrderContext);
     const {total} = useContext(OrderContext);
-    const {idUser} = useContext(AuthContext);
+    const {state} = useContext(AuthContext);
     const [productRemaining, setProductRemaining] = useState([]);
     const [idProduct, setIdProduct] = useState([]);
-    const [fullName, setFullName] = useState('');
+    const [fullName, setFullName] = useState(state.fullName);
+    const [phoneNumber, setPhoneNumber] = useState(state.phoneNumber);
+    const [email, setEmail] = useState(state.email);
     const [address, setAddress] = useState('');
-    const [phoneNumber, setPhoneNumber] = useState('');
-    const [email, setEmail] = useState('');
     const [notes, setNotes] = useState('');
     const userName = window.localStorage.getItem('username');
     const navigate = useNavigate();
     const dispatch = useDispatch();
     
-    const inputHandler = (e) => {
-        const { value, maxLength } = e.target;
-        if (String(value).length >= maxLength) {
-          e.preventDefault();
-          return;
-        }
-      };
-    
     const addBill = async (product) => {
+        const cartProduct = localStorage.getItem("cartItem") ? JSON.parse(localStorage.getItem("cartItem")) : [];
+
         const idProductInOrder = order.map((item) => item.id);
         setIdProduct(idProductInOrder);
-
+    
         const remaining = order.map((item) => item.inventory - item.quantity);
         setProductRemaining(remaining);
         
-        if (fullName === '' && address === '' && phoneNumber === '') {
-            alert('Please fill in the payment information!!')
+        if (fullName === '' || phoneNumber === '') {
+            alert('Please update your personal information !!');
+            navigate('/user/' + state.id);
         } else {
-            setEmail(idUser.email);
-            const res = await axios.post(
-                'http://localhost:8000/bill', {
-                    username: userName,
-                    fullName: fullName,
-                    address: address,
-                    phoneNumber: +phoneNumber,
-                    email: email,
-                    orderNotes: notes,
-                    products: order,
-                    total: +total,
-                    paymentMethods: "Pay cash upon delivery"
-                }
-            );
-            if (res.status === 201) {
-            
-                const editInventory = async () => {
-                    for (let i = 0; i < idProduct.length; i++) {
-                        const id = idProduct[i];
-                        const remainingQuantity = productRemaining[i];
-                        const editInventoryProduct = await axios.patch(
-                            'http://localhost:8000/product/' + id,
-                            {
-                                inventory: remainingQuantity,
-                            }
-                        );
-        
-                        if (editInventoryProduct.status === 200) {
-                            dispatch(deleteProductToCart(product));
-                            navigate('/ordercomplete/');
-                        };
-                        
+            if (address === '') {
+                alert('Please enter your delivery address !!');
+            } else {
+                setEmail(state.email);
+                    const res = await axios.post(
+                        'http://localhost:8000/bill', {
+                            idUser: +state.id,
+                            username: userName,
+                            fullName: fullName,
+                            address: address,
+                            phoneNumber: +phoneNumber,
+                            email: email,
+                            orderNotes: notes,
+                            products: order,
+                            total: +total,
+                            paymentMethods: "Pay cash upon delivery",
+                            state: "Pending"
+                        }
+                    );
+
+                    if (res.status === 201) {
+                        dispatch(deleteProductToCart(product));
+                        window.localStorage.removeItem("cartItem");
+                        navigate('/ordercomplete/');
                     }
-                    
-                }
-                await editInventory();
             }
         }
     }
@@ -89,77 +74,84 @@ function OrderDetail() {
         <div>
             <Header />
             <div className='mt-[70px] h-full w-full bg-[#f8f8f8]'>
-                <div className='w-[1140px] mx-auto'>
-                    <div className='flex items-center gap-[10px] p-[10px_0_15px_0] w-full'>
+                <div className='lg:w-[1140px] lg:mx-auto'>
+                    <div className='flex items-center lg:gap-[10px] lg:p-[10px_0_15px_0] w-full
+                            max-sm:p-[7px_12px_7px_12px] max-sm:gap-[5px]'>
                         <Link to={'/'} className=''>
-                            <h1 className='text-[#262626]'>HOME</h1>
+                            <h1 className='text-[#262626] max-sm:text-[10px]'>HOME</h1>
                         </Link>
-                        <AiOutlineRight className='text-[#CDCDCD]' />
+                        <AiOutlineRight className='text-[#CDCDCD] max-sm:text-[12px]' />
                         <Link to={'/viewcart/'}>
-                            <p >SHOPPING CART</p>
+                            <p className='max-sm:text-[10px]'>SHOPPING CART</p>
                         </Link>
-                        <AiOutlineRight className='text-[#CDCDCD]' />
-                        <p className='font-bold'>ORDER DETAILS</p>
+                        <AiOutlineRight className='text-[#CDCDCD] max-sm:text-[12px]' />
+                        <p className='font-bold max-sm:text-[10px]'>ORDER DETAILS</p>
                         
                     </div>
                 </div>
-                <div className='bg-[#f0f0f0]'>
-                    <div className='w-full flex justify-center py-[50px]'>
-                        <h1 className='text-[40px] text-[#303840] font-bold'>SHOPPING CART</h1>
+                <div className='bg-[#f0f0f0] max-sm:px-[12px]'>
+                    <div className='w-full flex justify-center lg:py-[50px] max-sm:py-[35px]'>
+                        <h1 className='lg:text-[40px] max-sm:text-[30px] text-[#303840] font-bold'>SHOPPING CART</h1>
                     </div>
-                    <div className='flex w-[1140px] mx-auto bg-[#f8f8f8] items-center'>
-                        <div className='relative flex justify-center items-center gap-[15px] w-[33.33333333333333%] py-[20px] bg-[#384450]'>
+                    <div className='flex lg:w-[1140px] lg:mx-auto bg-[#f8f8f8] lg:items-center'>
+                        <div className='relative flex justify-center items-center gap-[15px] lg:w-[33.33333333333333%] max-sm:w-[25%] lg:py-[20px] max-sm:py-[15px]'>
                             <PiNumberCircleOneFill className='text-[25px] text-[#C8C8C8]' />
-                            <span className='text-[#C8C8C8]'>SHOPPING CART</span>
-                            <AiOutlineDoubleRight className='absolute right-[-64px] text-[95px] text-[#F0F0F0] z-[1]' />
+                            <span className='text-[#303851] lg:block max-sm:hidden'>SHOPPING CART</span>
+                            <RxTriangleRight className='lg:block max-sm:hidden absolute right-[-80px] text-[135px] text-[#F8F8F8] z-[1]' />
                         </div>
-                        <div className='relative flex justify-center items-center w-[33.33333333333333%] gap-[15px] py-[20px] bg-[#384450]'>
+                        <div className='relative flex justify-center items-center lg:gap-[15px] lg:w-[33.33333333333333%] max-sm:w-[50%] lg:py-[20px] max-sm:py-[5px] bg-[#384450]
+                                    max-sm:px-[15px]'>
                             <PiNumberCircleTwoFill className='text-[25px] text-[#fff]' />
-                            <span className='text-[#fff]'>ORDER DETAILS</span>
-                            <RxTriangleRight className='absolute right-[-99px] text-[190px] text-[#384450]' />
+                            <span className='text-[#fff] max-sm:text-center '>ORDER DETAILS</span>
+                            <RxTriangleRight className='max-sm:hidden lg:block absolute right-[-99px] text-[190px] text-[#384450]' />
+                            <FaCaretRight className='max-sm:block lg:hidden absolute text-[#384450] text-[105px] right-[-52.5px]'/>
                         </div>
-                        <div className='relative flex justify-center items-center w-[33.33333333333333%] gap-[15px] py-[20px]'>
+                        <div className='relative flex justify-center items-center gap-[15px] lg:w-[33.33333333333333%] max-sm:w-[25%] lg:py-[20px] max-sm:py-[15px]'>
                             <PiNumberCircleThreeFill className='text-[25px] text-[#C8C8C8]' />
-                            <span className='text-[#303851]'>ORDER COMPLETE</span>
+                            <span className='text-[#303851] lg:block max-sm:hidden'>ORDER COMPLETE</span>
                         </div>
                     </div>
                 </div>
-                <div className='py-[50px]'>
-                    <div className='flex gap-[30px] w-[1140px] mx-auto bg-[#fff] border shadow-[0_1px_2px_0_rgba(48,56,64,0.16)] p-[40px]'>
-                        <div className='w-[60%]'>
+                <div className='py-[50px] max-sm:px-[12px]'>
+                    <div className='flex gap-[30px] lg:w-[1140px] lg:mx-auto bg-[#fff] border shadow-[0_1px_2px_0_rgba(48,56,64,0.16)] lg:p-[40px]
+                        max-sm:flex-col max-sm:p-[12px_12px_40px_12px]'>
+                        <div className='lg:w-[60%] max-sm:w-full'>
                             <div className='flex items-center gap-[10px] py-[20px]'>
                                 <IoNewspaper className='text-[#C8C8C8] text-[30px]'/>
-                                <h3 className='font-bold text-[25px] text-[#303840]'>BILLING INFORMATION</h3>
+                                <h3 className='font-bold text-[25px] text-[#303840] max-sm:text-[20px]'>BILLING INFORMATION</h3>
                             </div>
                             <div className='flex flex-col gap-[10px] '>
                                 <div className='flex flex-col gap-[5px]'>
                                     <label className='font-bold'>Full Name</label>
                                     <input 
-                                        onChange={(e) => setFullName(e.target.value)}
+                                        value={state.fullName}
                                         type='text' 
-                                        className='border p-[7px_15px] shadow-[0_1px_2px_0_rgba(0,0,0,0.1)]'></input>
-                                </div>
-                                <div className='flex flex-col gap-[5px]'>
-                                    <label className='font-bold'>Address</label>
-                                    <input 
-                                        onChange={(e) => setAddress(e.target.value)}
-                                        type='text' 
-                                        className='border p-[7px_15px] shadow-[0_1px_2px_0_rgba(0,0,0,0.1)]'></input>
-                                </div>
-                                <div className='flex flex-col'>
-                                    <label className='font-bold'>Phone number</label>
-                                    <input
-                                        onChange={(e) => setPhoneNumber(e.target.value)}
-                                        type="number"
-                                        maxlength="10"
-                                        onKeyPress={inputHandler}
                                         className='border p-[7px_15px] shadow-[0_1px_2px_0_rgba(0,0,0,0.1)]'
-                                    />
+                                        disabled
+                                    ></input>
                                 </div>
                                 <div className='flex flex-col gap-[5px]'>
                                     <label className='font-bold'>Email</label>
                                     <input 
-                                        value={idUser.email}
+                                        value={state.email}
+                                        type='text' 
+                                        className='border p-[7px_15px] shadow-[0_1px_2px_0_rgba(0,0,0,0.1)]'
+                                        disabled    
+                                    ></input>
+                                </div>
+                                <div className='flex flex-col'>
+                                    <label className='font-bold'>Phone number</label>
+                                    <input
+                                        value={state.phoneNumber}
+                                        type="number"
+                                        className='border p-[7px_15px] shadow-[0_1px_2px_0_rgba(0,0,0,0.1)]'
+                                        disabled
+                                    />
+                                </div>
+                                <div className='flex flex-col gap-[5px]'>
+                                    <label className='font-bold'>Delivery address</label>
+                                    <input 
+                                        onChange={(e) => setAddress(e.target.value)}
                                         type='text' 
                                         className='border p-[7px_15px] shadow-[0_1px_2px_0_rgba(0,0,0,0.1)]'></input>
                                 </div>
@@ -171,7 +163,7 @@ function OrderDetail() {
                                 </div>
                             </div>
                         </div>
-                        <div className='w-[40%] border-[2px] border-solid border-[#303840]'>
+                        <div className='lg:w-[40%] max-sm:w-full max-sm:pb-[25px] border-[2px] border-solid border-[#303840]'>
                             <div className='p-[20px]'>
                                 <div className='pb-[10px]'>
                                     <h3 className='font-bold text-[25px] text-[#303840]'>YOUR ORDER</h3>
@@ -218,6 +210,7 @@ function OrderDetail() {
                                     </div>
                                     <div className='pt-[30px]'>
                                         <button 
+                                            type='button'
                                             onClick={addBill}
                                             className='bg-[#DD3333] p-[5px_30px] text-[#fff] font-bold'>
                                             ORDER
@@ -234,4 +227,4 @@ function OrderDetail() {
     )
 }
 
-export default OrderDetail 
+export default OrderDetail    

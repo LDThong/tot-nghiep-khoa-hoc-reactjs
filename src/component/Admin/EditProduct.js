@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import NavAdmin from './navAdmin';
-import HeaderAdmin from './headerAdmin';
+import NavAdmin from './NavAdmin';
 import { useNavigate, useParams } from 'react-router-dom';
 import axios from 'axios';
 import { storage } from '../../firebase/firebaseConfig';
@@ -97,18 +96,15 @@ function EditProduct() {
     }, [])
 
     return (
-        <div className='flex w-full'>
-            <div className='w-1/5'>
-                <NavAdmin />
-            </div>
-            <div className='flex flex-col w-4/5 bg-[#F8F8F8]'>
-                <HeaderAdmin />
-                <div className='w-full h-full'>
+        <div className='bg-[#F8F8F8]'>
+            <NavAdmin />
+            <div className='mt-[120px]'>
+                <div className='w-full h-full pt-[20px]'>
                     {product && (
                         <div className='flex w-full'>
                             <div className='flex flex-col gap-[20px] w-[50%]'>
                                 <div className='flex justify-center w-full'>
-                                    <img className='w-[45%]' src={product.imgs}></img>
+                                    <img className='w-[35%]' src={product.imgs}></img>
                                 </div>
                                 <div className='flex justify-center'>
                                     <div className='border w-[45%] text-center px-[20px] py-[10px] border rounded-[10px] bg-[#fff]'>
@@ -136,14 +132,14 @@ function EditProduct() {
                             <div className='w-[50%]'>
                                 <form 
                                     className='flex flex-col gap-[20px]'>
-                                    <div className='flex w-full h-[266px]'>
+                                    <div className='flex w-full h-[262px]'>
                                         <div className='flex items-center'>
                                             <input type='file' onChange={handleChange}></input>
                                         </div>
                                         <div className='flex justify-center w-full '>
                                             {
                                                 image && (
-                                                    <img className='w-[88%]' src={URL.createObjectURL(image)}></img>
+                                                    <img className='w-[57.5%]' src={URL.createObjectURL(image)}></img>
                                                 )
                                             }
                                         </div>

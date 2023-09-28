@@ -17,7 +17,7 @@
   display: block;
   content: "";
   position: absolute;
-  padding: 0 12px;
+  padding: 0 20px;
   white-space: nowrap;
   background: #303840;
   font-size: 12px;
@@ -26,7 +26,7 @@
   color: #fff;
   text-align: center;
   right: 12%;
-  margin-top: -1px;
+  margin-top: 5px;
   border-radius: 8px 8px 8px 8px;
 }
 
@@ -58,7 +58,7 @@
   color: #fff;
   text-align: center;
   right: 20%;
-  margin-top: 5px;
+  margin-top: 12px;
   border-radius: 8px 8px 8px 8px;
 }
 
@@ -106,4 +106,12 @@
   background-image: url(/public/images/banner-footer.png);
   background-size: cover;
   background-repeat: no-repeat;
+}
+
+.shops:hover .listshops {
+  display: block;
+}
+
+.listshops {
+  display: none;
 }
