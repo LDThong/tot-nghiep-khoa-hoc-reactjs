@@ -40,10 +40,14 @@ function UserInformation() {
 
     const handeleEditChange = () => {
         Navigate('/user/' + id + '/editinfo/')
-    }
+    };
     
     const handleUpdateInfo = () => {
         Navigate('/user/' + id + '/updateinfo/');
+    };
+
+    const nextChangePassword = (id) => {
+        Navigate('/user/changepassword/' + id);
     }
 
     useEffect(() => {
@@ -136,15 +140,17 @@ function UserInformation() {
                                         )}
                                     </div>
                                 </div>
-                                <div className='flex w-[100%]'>
+                                <div className='flex gap-[25px] w-[100%]
+                                    max-sm:flex-col'>
                                     {state.fullName && state.phoneNumber ? (
-                                        <button
-                                            type='button'
-                                            onClick={handeleEditChange}
-                                            className='p-[10px_50px] rounded-[10px] bg-[#FD612A] text-[#fff] font-semibold'>
-                                            Change
-                                        </button>
-
+                                        <div className='max-sm:w-[100%]'>
+                                            <button
+                                                type='button'
+                                                onClick={handeleEditChange}
+                                                className='w-full p-[10px_50px] rounded-[10px] bg-[#FD612A] text-[#fff] font-semibold'>
+                                                Change
+                                            </button>
+                                        </div>
                                     ) : (
                                         <button
                                             type='button'
@@ -153,6 +159,12 @@ function UserInformation() {
                                             Update Info
                                         </button>
                                     )}
+                                    <button
+                                        type='button'
+                                        onClick={() => nextChangePassword(state.id)}
+                                        className='p-[10px_50px] bg-[#6D4AFF] text-[#fff] font-bold rounded-[10px]'>
+                                        Change Password
+                                    </button>
                                 </div>
                             </div>
                         )}

@@ -5,7 +5,6 @@ import { faUser } from '@fortawesome/free-solid-svg-icons';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import './App.css';
-import { HomeContext } from '../../context/HomeContext';
 import { AuthContext } from '../../context/authContext';
 import { SearchContext } from '../../context/SearchContext';
 import { useDispatch, useSelector } from 'react-redux';
@@ -19,9 +18,9 @@ import {HiOutlineLogout} from 'react-icons/hi';
 
 function Header() {
     const { state, setState } = useContext(AuthContext);
-    const { list, setList} = useContext(HomeContext);
-    const { product, setProduct} = useContext(SearchContext);
-    const { search, setSearch} = useContext(SearchContext);
+    const [list, setList] = useState([]);
+    const { setProduct} = useContext(SearchContext);
+    const { setSearch} = useContext(SearchContext);
     const carts = useSelector((state) => state.cart.carts);
     const [dataSearch, setDataSearch] = useState('');
     const [style, setStyle] = useState("hidden");
@@ -107,7 +106,7 @@ function Header() {
 
     useEffect(() => {
         getData();
-    }, [])
+    }, []);
 
     const navBars = ` ${style} absolute left-0 right-0 h-screen bg-[#fff] z-1`;
     const navB = ` ${nav} flex flex-col justify-center h-full`;
@@ -120,7 +119,7 @@ function Header() {
     return (
         <div>
             <div className='lg:flex lg:flex-row lg:justify-center lg:items-center lg:w-full 
-                fixed top-0 left-0 right-0 z-50' id='pagetop'>
+                fixed top-0 left-0 right-0 z-50'>
                 <div className='flex lg:container lg:justify-between lg:bg-[#02021E] max-sm:bg-[#fff] h-[70px] lg:px-[24px] max-sm:p-[5px_12px_5px_12px]
                     max-sm:shadow-[0px_1px_2px_rgba(48,56,64,.16)] max-sm:border-b '>
                     <div className='lg:hidden max-sm:block'>

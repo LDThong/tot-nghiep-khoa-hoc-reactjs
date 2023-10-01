@@ -1,5 +1,4 @@
-import React, { useContext, useEffect} from 'react'
-import { HomeContext } from '../../context/HomeContext';
+import React, { useContext, useEffect, useState} from 'react'
 import axios from 'axios';
 import Header from './Header';
 import Footer from './Footer';
@@ -9,7 +8,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCaretRight } from '@fortawesome/free-solid-svg-icons';
 
 function TypeShop() {
-    const { list, setList } = useContext(HomeContext);
+    const [list, setList] = useState([]);
 
     const getData = async () => {
         const response = await axios.get(

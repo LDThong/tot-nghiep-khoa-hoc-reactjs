@@ -13,8 +13,6 @@ import { addProductToCart } from '../../store/CartSlice';
 function ProductDetail() {
 	let { id } = useParams();
     const [ detail, setDetail] = useState({});
-    // const { addProductToCart} = useShopContext();
-    // const [quantityProduct, setQuantityProduct] = useState(detail.quantity);
     const dispatch = useDispatch();
 
     const cartItem = JSON.parse(localStorage.getItem("cartItem")) || [];
@@ -40,7 +38,6 @@ function ProductDetail() {
             cartItem.push(productAdd);
             localStorage.setItem("cartItem", JSON.stringify(cartItem));
             dispatch(addProductToCart(newProduct));
-            
         }
     };
 
@@ -49,7 +46,7 @@ function ProductDetail() {
     <div>
         <Header />
         <div className='lg:mt-[30px] max-sm:mt-[20px] h-full bg-[#F8F8F8] p-[50px_0_50px_0]'>
-            <div className='flex items-center lg:gap-[10px] max-sm:gap-[5px] lg:p-[10px_0_15px_0] w-full
+            <div className='flex items-center lg:gap-[10px] max-sm:gap-[5px] lg:p-[10px_0px_15px_190px] w-full
                 max-sm:p-[7px_12px_7px_12px]'>
                 <Link to={'/'}> 
                     <h1 className='max-sm:text-[12px]'>HOME</h1>
@@ -91,7 +88,8 @@ function ProductDetail() {
                                     <button
                                         type='button'
                                         onClick={() => onAdd(detail)}
-                                        className='flex justify-center items-center w-full p-[14px_24px] rounded-[24px] bg-[#F82888] font-bold text-[#fff]'>
+                                        className='flex justify-center items-center w-full p-[14px_24px] rounded-[24px] bg-[#F82888] font-bold text-[#fff]'
+                                        disabled={detail.inventory === 0}>
                                         <span>Add To Cart</span>
                                         <FontAwesomeIcon icon={faCaretRight} className='absolute lg:right-[19px] max-sm:right-[45px] text-[20px]' />
                                     </button>

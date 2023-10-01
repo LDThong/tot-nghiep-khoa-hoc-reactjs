@@ -72,7 +72,7 @@ function YourOrder() {
 
     useEffect(() => {
         getDataOrder();
-    }, []);
+    }, [styled]);
 
     return (
         <div>
@@ -198,7 +198,9 @@ function YourOrder() {
                                             </div>
                                         ) : (
                                             <div className='flex justify-between items-center' >
-                                                <p className='max-sm:text-[13px] max-sm:font-semibold text-green-400 lg:font-bold'>{item.state}</p>
+                                                <p className='max-sm:text-[13px] max-sm:font-semibold text-green-400 lg:font-bold'>
+                                                    {item.state}
+                                                </p>
                                                 <button
                                                     type='button'
                                                     onClick={handleCanceled}
@@ -232,7 +234,7 @@ function YourOrder() {
                                             </div>
                                         </div>
                                         <div className={classCancelSuccessfull}>
-                                            <div className='flex flex-col justify-center gap-[25px] bg-[#fff] lg:p-[26px_122px_26px_122px] max-sm:p-[26px_100px_26px_100px]'>
+                                            <div className='flex flex-col justify-center gap-[25px] bg-[#fff] lg:p-[26px_122px_26px_122px] max-sm:p-[26px_25px_26px_25px]'>
                                                 <div className='flex flex-col items-center gap-[15px]'>
                                                     <BsCheckCircle className='text-[100px] text-[#349E81]'/>
                                                     <p className='max-sm:text-center max-sm:text-[20px] lg:text-[25px] font-bold text-[#595959]'>Your Order is successfully canceled.</p>

@@ -3,9 +3,11 @@ import NavAdmin from './NavAdmin';
 import { HomeContext } from '../../context/HomeContext';
 import axios from 'axios';
 import {AiFillDelete, AiTwotoneEdit} from 'react-icons/ai';
+import { useNavigate } from 'react-router-dom';
 
 function UserManagement() {
     const {list, setList} = useContext(HomeContext);
+    const Navigate = useNavigate();
 
     const getDataUser = async () => {
         const response = await axios.get(
@@ -16,6 +18,25 @@ function UserManagement() {
             setList(response.data);
         };
     };
+
+    const onDelete = async (id) => {
+        let text = ('Are you sure you want to delete');
+
+        if (window.confirm(text) === true) {
+            const res = await axios.delete(
+              'http://localhost:8000/user/' + id
+            );
+      
+            if (res.status === 200) {
+                alert('Delete id successful')
+            };
+            await getDataUser();
+        };
+    }
+
+    const onEditUserInfo = (id) => {
+        Navigate('/admin/home/edituserinfo/' + id);
+    }
 
     useEffect(() => {
         getDataUser();
@@ -90,11 +111,14 @@ function UserManagement() {
                             </div>
                             <div className='flex flex-col justify-center items-center gap-[5px] p-[10px_15px_10px_15px] w-[8%] border-r border-b'>
                                 <button
+                                    onClick={() => onDelete(item.id)}
                                     className='flex items-center gap-[5px] text-[#fff] bg-red-500 p-[5px] rounded-[20px]'>
                                     <AiFillDelete className='text-[15px] text-[#fff]'/>
                                     Delete
                                 </button>
-                                <button className='flex items-center gap-[5px] text-[#fff] bg-[#22C55E] p-[5px_10px_5px_10px] rounded-[20px]'>
+                                <button 
+                                    onClick={() => onEditUserInfo(item.id)}
+                                    className='flex items-center gap-[5px] text-[#fff] bg-[#22C55E] p-[5px_10px_5px_10px] rounded-[20px]'>
                                     <AiTwotoneEdit className='text-[20px] text-[#fff]'/>
                                     Edit
                                 </button>

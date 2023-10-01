@@ -8,7 +8,7 @@ function Footer() {
             <footer className=' bg-[#2a343d]'>
                 <div className='bg-[#02021E]'>
                     <div className='flex items-center max-w-[1244px] mx-auto h-[48px] max-sm:px-[15px]'>
-                        <a href='' className=' backpagetop tracking-[.16em] font-bold w-full text-center text-[#fff] hover:text-[#c8c8c8]'>BACK TO SHOP</a>
+                        <a href='#' className=' backpagetop tracking-[.16em] font-bold w-full text-center text-[#fff] hover:text-[#c8c8c8]'>BACK TO SHOP</a>
                     </div>
                 </div>
 

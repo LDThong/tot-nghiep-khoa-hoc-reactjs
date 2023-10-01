@@ -10,7 +10,9 @@ import {BsCheckCircle} from 'react-icons/bs';
 
 function ListOrder() {
     const [listOrder, setListOrder] = useState([]);
+    const [listProduct, setListProduct] = useState([]);
     const [cancelSuccessfull, setCancelSuccessfull] = useState("hidden");
+    const [state, setState] = useState("Not");
 
     const getDataOrder = async () => {
         const response = await axios.get(
@@ -21,12 +23,22 @@ function ListOrder() {
             setListOrder((response.data).sort((a, b) => b.id - a.id))
         };
     };
+
+    const getDataProduct = async () => {
+        const res = await axios.get(
+            'http://localhost:8000/product'
+        );
+
+        if (res.status === 200) {
+            setListProduct(res.data)
+        }
+    }
     
     const handleStatus = async (idUser, id) => {
         const idProductInOrder = listOrder.filter((item) => item.idUser === idUser);
 
         const productOrder = idProductInOrder.map((item) => item.products);
-
+        // -------------------
         const flattenedArray = productOrder.flat();
 
         const idProduct = flattenedArray.map((item) => item.id);
@@ -50,11 +62,12 @@ function ListOrder() {
         };
 
         if (res.status === 200) {
-            alert("Update State Order Successfull")
+            alert("Update State Order Successfull");
         };
+        setState("Have");
     };
 
-    const classCancelSuccessfull = ` ${cancelSuccessfull} flex items-center justify-center fixed z-55 top-0 bottom-0 bg-[#0000004d] right-0 left-0`;
+    const classCancelSuccessfull = ` ${cancelSuccessfull} flex items-center justify-center fixed z-65 top-0 bottom-0 bg-[#0000004d] right-0 left-0`;
 
     const handleCanceled = async (id) => {
         const response = await axios.patch(
@@ -74,7 +87,8 @@ function ListOrder() {
 
     useEffect(() => {
         getDataOrder();
-    }, []);
+        getDataProduct();
+    }, [cancelSuccessfull, state]);
 
   return (
     <div className='bg-[#F8F8F8]'>

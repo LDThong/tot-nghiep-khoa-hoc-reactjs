@@ -151,7 +151,6 @@ function EditProduct() {
                                                 name='nameProduct'
                                                 onChange={(e) => setEditNameProduct(e.target.value)}
                                                 className='px-[20px] py-[10px] w-[40%] border rounded-[10px]' placeholder=''>
-                                                    
                                             </input>
                                         </div>
                                         <div className='flex items-center justify-center gap-[40px] w-full'>

@@ -9,10 +9,11 @@ import {FaCaretRight} from 'react-icons/fa6';
 import { BsBoxSeam, BsChevronCompactRight } from 'react-icons/bs';
 import { ImBin } from 'react-icons/im';
 import './App.css';
-import { deleteProduct, removeProductToCart } from '../../store/CartSlice';
+import { removeProductToCart } from '../../store/CartSlice';
 import { OrderContext } from '../../context/OrderContext';
 import {RxTriangleRight} from 'react-icons/rx';
 import { HomeContext } from '../../context/HomeContext';
+import {CgDanger} from 'react-icons/cg';
 
 function ViewCart() {
     const carts = useSelector((state) => state.cart.carts);
@@ -20,8 +21,10 @@ function ViewCart() {
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const [cartItem, setCartItem] = useState(carts);
-    const {order, setOrder} = useContext(OrderContext);
-    const {total, setTotal} = useContext(OrderContext);
+    const {setOrder} = useContext(OrderContext);
+    const {setTotal} = useContext(OrderContext);
+    const [notification, setNotification] = useState("hidden");
+    const [notificationFailed, setNotificationFailed] = useState("hidden");
 
     const cartProduct = localStorage.getItem("cartItem") ? JSON.parse(localStorage.getItem("cartItem")) : [];
 
@@ -77,7 +80,7 @@ function ViewCart() {
                 const remaining = item.inventory - item.quantity;
                 if (remaining < 0) {
                    flag = false;
-                   alert('Product quantity is not enough! Please re-enter quantity.');
+                   setNotificationFailed("block")
                 };
                 return true;
             });
@@ -87,7 +90,7 @@ function ViewCart() {
                 const newQuantity = [...cartItem].filter((item) => {
                     if (item.quantity === 0) {
                         quantityzero = false;
-                        alert('Product quantity cannot be 0 !!');
+                        setNotification("block")
                     };
                     return true;
                 });
@@ -99,8 +102,17 @@ function ViewCart() {
                 }
             }
         }
-    }
+    };
 
+    
+
+    const classNotificationFailed = ` ${notificationFailed} max-sm:px-[12px] flex items-center justify-center fixed z-55 top-0 bottom-0 bg-[#0000004d] right-0 left-0`;
+    const classNotification = ` ${notification} max-sm:px-[12px] flex items-center justify-center fixed z-55 top-0 bottom-0 bg-[#0000004d] right-0 left-0`;
+
+    const handleClose = () => {
+        setNotificationFailed("hidden");
+        setNotification("hidden");
+    };
 
     return (
         <div>
@@ -272,6 +284,38 @@ function ViewCart() {
                                 </div>
                             </div>
                         )}
+                        <div className={classNotification}>
+                            <div className='flex flex-col justify-center gap-[25px] bg-[#fff] lg:p-[26px_122px_26px_122px] max-sm:p-[30px_75px_30px_75px]'>
+                                <div className='flex flex-col items-center gap-[15px]'>
+                                    <CgDanger className='text-[100px] text-[#CC1914]' />
+                                    <p className='max-sm:text-center max-sm:text-[20px] lg:text-[25px] font-bold text-[#000] max-sm:w-[100%]'>Product quantity cannot be 0!</p>
+                                </div>
+                                <div className='flex justify-center gap-[10px]'>
+                                    <button
+                                        type='button'
+                                        onClick={handleClose}
+                                        className='max-sm:p-[5px_20px_5px_20px] bg-[#F7EA00] lg:p-[5px_15px_5px_15px] font-medium text-[#000] rounded-[5px]'>
+                                        <p className='font-bold'>Close</p>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div className={classNotificationFailed}>
+                            <div className='flex flex-col justify-center gap-[25px] bg-[#fff] lg:p-[26px_122px_26px_122px] max-sm:p-[30px_75px_30px_75px]'>
+                                <div className='flex flex-col items-center gap-[15px]'>
+                                    <CgDanger className='text-[100px] text-[#CC1914]' />
+                                    <p className='max-sm:text-center max-sm:text-[20px] lg:text-[25px] font-bold text-[#000] max-sm:w-[100%]'>Product quantity is not enough! Please re-enter quantity!</p>
+                                </div>
+                                <div className='flex justify-center gap-[10px]'>
+                                    <button
+                                        type='button'
+                                        onClick={handleClose}
+                                        className='max-sm:p-[5px_20px_5px_20px] bg-[#F7EA00] lg:p-[5px_15px_5px_15px] font-medium text-[#000] rounded-[5px]'>
+                                        <p className='font-bold'>Close</p>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>

@@ -1,13 +1,16 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import { HomeContext } from '../../context/HomeContext'
 import axios from 'axios';
 import { AuthContext } from '../../context/authContext';
+import {CgDanger} from 'react-icons/cg';
 
 function Login() {
-    const {list, setList} = useContext(HomeContext);
+    const [list, setList] = useState([]);
     const navigate = useNavigate();
     const {state, setState} = useContext(AuthContext);
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [notificationFailed, setNotificationFailed] = useState("hidden");
 
     const getData = async () => {
         const response = await axios.get(
@@ -19,14 +22,8 @@ function Login() {
         }
     };
 
-    const onLogin = (event) => {
-        event.preventDefault();
-        const data = {
-            email: event.target.email.value,
-            password: event.target.password.value,
-        };
-
-        const foundUser = list.find(user => user.email === data.email && user.password === data.password);
+    const onLogin = () => {
+        const foundUser = list.find(user => user.email === email && user.password === password);
 
         if (foundUser) {
             setState(foundUser);
@@ -37,9 +34,15 @@ function Login() {
             window.localStorage.setItem('phoneNumber', foundUser.phoneNumber)
             navigate('/')
         } else {
-            alert('Login failed');
+            setNotificationFailed("block")
         }
-    }
+    };
+
+    const classNotificationFailed = ` ${notificationFailed} flex items-center justify-center fixed z-55 top-0 bottom-0 bg-[#0000004d] right-0 left-0`;
+
+    const handleClose = () => {
+        setNotificationFailed("hidden")
+    };
     
     useEffect(() => {
         getData();
@@ -62,11 +65,12 @@ function Login() {
                                     <p className='text-[24px] font-bold'>Login</p>
                                     <span className='lg:block max-sm:hidden text-[16px] font-normal text-[#0098EA]'>List</span>
                                 </div>
-                                <form className='flex flex-col gap-[16px] w-full' onSubmit={onLogin}>
+                                <form className='flex flex-col gap-[16px] w-full'>
                                     <div className='w-full leading-[40px]'>
                                         <input  required
                                             type='email'
                                             name='email'
+                                            onChange={(e) => setEmail(e.target.value)}
                                             className='bg-[#fff] w-full text-[14px] p-[0_16px_0_14px] rounded-[4px] border-solid border-[#D0D0D0] border'
                                             placeholder='Email' />
                                     </div>
@@ -74,13 +78,15 @@ function Login() {
                                         <input
                                             type='password'
                                             name='password'
+                                            onChange={(e) => setPassword(e.target.value)}
                                             className='bg-[#fff] w-full text-[14px] p-[0_16px_0_14px] rounded-[4px] border-solid border-[#D0D0D0] border'
                                             placeholder='Password' />
                                     </div>
                                     <div className='w-full h-[4px]'></div>
                                     <div className='w-full'>
                                         <button
-                                            type='submit'
+                                            type='button'
+                                            onClick={onLogin}
                                             className='px-[24px] py-[12px] rounded-[8px] font-bold text-[16px] text-[#fff] bg-[#1877F2] w-full'>
                                             Login
                                         </button>
@@ -88,6 +94,7 @@ function Login() {
                                     <Link to={'/register'}>
                                         <div className='w-full'>
                                             <button
+                                                type='button'
                                                 className='px-[24px] py-[12px] rounded-[8px] font-bold text-[16px] text-[#fff] bg-[#42B72A] w-full'>
                                                 Register
                                             </button>
@@ -120,6 +127,22 @@ function Login() {
                                         Facebook
                                     </button>
                                 </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div className={classNotificationFailed}>
+                        <div className='flex flex-col justify-center gap-[25px] bg-[#fff] lg:p-[26px_122px_26px_122px] max-sm:p-[30px_110px_30px_110px]'>
+                            <div className='flex flex-col items-center gap-[15px]'>
+                                <CgDanger className='text-[100px] text-[#CC1914]' />
+                                <p className='max-sm:text-center max-sm:text-[20px] lg:text-[25px] font-bold text-[#000] max-sm:w-[100%]'>Login Failed!</p>
+                            </div>
+                            <div className='flex justify-center gap-[10px]'>
+                                <button
+                                    type='button'
+                                    onClick={handleClose}
+                                    className='max-sm:p-[5px_20px_5px_20px] bg-[#F7EA00] lg:p-[5px_15px_5px_15px] font-medium text-[#000] rounded-[5px]'>
+                                    <p className='font-bold'>Close</p>
+                                </button>
                             </div>
                         </div>
                     </div>

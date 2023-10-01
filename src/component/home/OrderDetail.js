@@ -11,14 +11,13 @@ import axios from 'axios';
 import { useDispatch } from 'react-redux';
 import { removeProductToCart, deleteProductToCart } from '../../store/CartSlice';
 import { AuthContext } from '../../context/authContext';
+import {CgDanger} from 'react-icons/cg';
 import {FaCaretRight} from 'react-icons/fa6';
 
 function OrderDetail() {
     const {order} = useContext(OrderContext);
     const {total} = useContext(OrderContext);
     const {state} = useContext(AuthContext);
-    const [productRemaining, setProductRemaining] = useState([]);
-    const [idProduct, setIdProduct] = useState([]);
     const [fullName, setFullName] = useState(state.fullName);
     const [phoneNumber, setPhoneNumber] = useState(state.phoneNumber);
     const [email, setEmail] = useState(state.email);
@@ -27,22 +26,15 @@ function OrderDetail() {
     const userName = window.localStorage.getItem('username');
     const navigate = useNavigate();
     const dispatch = useDispatch();
+    const [notification, setNotification] = useState("hidden");
+    const [notificationFailed, setNotificationFailed] = useState("hidden");
     
     const addBill = async (product) => {
-        const cartProduct = localStorage.getItem("cartItem") ? JSON.parse(localStorage.getItem("cartItem")) : [];
-
-        const idProductInOrder = order.map((item) => item.id);
-        setIdProduct(idProductInOrder);
-    
-        const remaining = order.map((item) => item.inventory - item.quantity);
-        setProductRemaining(remaining);
-        
         if (fullName === '' || phoneNumber === '') {
-            alert('Please update your personal information !!');
-            navigate('/user/' + state.id);
+            setNotification("block");
         } else {
             if (address === '') {
-                alert('Please enter your delivery address !!');
+                setNotificationFailed("block")
             } else {
                 setEmail(state.email);
                     const res = await axios.post(
@@ -68,6 +60,18 @@ function OrderDetail() {
                     }
             }
         }
+    };
+
+    const classNotificationFailed = ` ${notificationFailed} max-sm:px-[12px] flex items-center justify-center fixed z-55 top-0 bottom-0 bg-[#0000004d] right-0 left-0`;
+    const classNotification = ` ${notification} max-sm:px-[12px] flex items-center justify-center fixed z-55 top-0 bottom-0 bg-[#0000004d] right-0 left-0`;
+
+    const handleClose = () => {
+        setNotificationFailed("hidden");
+    };
+
+    const handleConfirm = () => {
+        setNotification("hidden");
+        navigate('/user/' + state.id);
     }
 
     return (
@@ -218,6 +222,38 @@ function OrderDetail() {
                                     </div>
                                 </div>
                             </div>
+                        </div>
+                    </div>
+                </div>
+                <div className={classNotification}>
+                    <div className='flex flex-col justify-center gap-[25px] bg-[#fff] lg:p-[26px_122px_26px_122px] max-sm:p-[30px_75px_30px_75px]'>
+                        <div className='flex flex-col items-center gap-[15px]'>
+                            <CgDanger className='text-[100px] text-[#CC1914]' />
+                            <p className='max-sm:text-center max-sm:text-[20px] lg:text-[25px] font-bold text-[#000] max-sm:w-[100%]'>Please update your personal information!</p>
+                        </div>
+                        <div className='flex justify-center gap-[10px]'>
+                            <button
+                                type='button'
+                                onClick={handleConfirm}
+                                className='max-sm:p-[5px_20px_5px_20px] bg-[#F7EA00] lg:p-[5px_15px_5px_15px] font-medium text-[#000] rounded-[5px]'>
+                                <p className='font-bold'>Confirm</p>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div className={classNotificationFailed}>
+                    <div className='flex flex-col justify-center gap-[25px] bg-[#fff] lg:p-[26px_122px_26px_122px] max-sm:p-[30px_75px_30px_75px]'>
+                        <div className='flex flex-col items-center gap-[15px]'>
+                            <CgDanger className='text-[100px] text-[#CC1914]' />
+                            <p className='max-sm:text-center max-sm:text-[20px] lg:text-[25px] font-bold text-[#000] max-sm:w-[100%]'>Please enter your delivery address!</p>
+                        </div>
+                        <div className='flex justify-center gap-[10px]'>
+                            <button
+                                type='button'
+                                onClick={handleClose}
+                                className='max-sm:p-[5px_20px_5px_20px] bg-[#F7EA00] lg:p-[5px_15px_5px_15px] font-medium text-[#000] rounded-[5px]'>
+                                <p className='font-bold'>Close</p>
+                            </button>
                         </div>
                     </div>
                 </div>

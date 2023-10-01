@@ -1,14 +1,12 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBell, faCaretRight } from '@fortawesome/free-solid-svg-icons';
-import { HomeContext } from '../../context/HomeContext';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import {MdNotificationsActive} from 'react-icons/md';
 import Shops from './Shops';
 
 function Main() {
-    const { list, setList } = useContext(HomeContext);
     const [listP, setListP] = useState([]);
 
     const getData = async () => {
@@ -17,7 +15,6 @@ function Main() {
         );
 
         if (response.status === 200) {
-            setList(response.data);
             const sortL = [...response.data].sort((a, b) => b.id - a.id);
             const fiveItems = sortL.slice(0, 5)
             setListP(fiveItems);

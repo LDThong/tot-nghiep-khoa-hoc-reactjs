@@ -19,7 +19,7 @@ export const cartSlice = createSlice({
 
             state.carts = newCarts;
         },
-        deleteProductToCart: (state, action) => {
+        deleteProductToCart: (state) => {
             state.carts = [];
         }
     },

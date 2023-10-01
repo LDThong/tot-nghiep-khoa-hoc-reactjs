@@ -1,6 +1,7 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import {CgDanger} from 'react-icons/cg';
 
 function Register() {
     const navigate = useNavigate();
@@ -9,6 +10,10 @@ function Register() {
     const [userNameRS, setUserNameRS] = useState('');
     const [passwordRS, setPasswordRS] = useState('');
     const [rePassword, setRePassword] = useState('');
+    const [notificationFailed, setNotificationFailed] = useState("hidden");
+    const [checkEmail, setCheckEmail] = useState("hidden");
+    const [hollowPassword, setHollowPassword] = useState("hidden");
+    const [checkPassword, setCheckPassword] = useState("hidden");
 
     const getData = async () => {
         const res = await axios.get(
@@ -26,12 +31,12 @@ function Register() {
         let check = true;
 
         if (emailRS === '' || userNameRS === '') {
-            alert('Please enter complete information !!')
+            setNotificationFailed("block")
         } 
         else {
             for (let i = 0; i < emailUser.length; i++) {
                 if (emailUser[i] === emailRS) {
-                    alert("Email already exists. Please enter another email !!");
+                    setCheckEmail("block");
                     check = false;
                     break;
                 } 
@@ -39,7 +44,7 @@ function Register() {
 
             if (check) {
                 if (passwordRS === '' || rePassword === '') {
-                    alert("Please enter password !!");
+                    setHollowPassword("block")
                 } else {
                     if (passwordRS === rePassword) {
                         const response = await axios.post(
@@ -59,13 +64,25 @@ function Register() {
                         }
     
                     } else {
-                        alert('Password does not match')
+                        setCheckPassword("block")
                     }
 
                 }
             }
         }
     }
+
+    const classNotificationFailed = ` ${notificationFailed} px-[12px] flex items-center justify-center fixed z-55 top-0 bottom-0 bg-[#0000004d] right-0 left-0`;
+    const classEmailFailed = ` ${checkEmail} px-[12px] flex items-center justify-center fixed z-55 top-0 bottom-0 bg-[#0000004d] right-0 left-0`;
+    const classPassword = ` ${hollowPassword} px-[12px] flex items-center justify-center fixed z-55 top-0 bottom-0 bg-[#0000004d] right-0 left-0`;
+    const classCheckPassword = ` ${checkPassword} px-[12px] flex items-center justify-center fixed z-55 top-0 bottom-0 bg-[#0000004d] right-0 left-0`;
+
+    const handleClose = () => {
+        setNotificationFailed("hidden");
+        setCheckEmail("hidden");
+        setHollowPassword("hidden");
+        setCheckPassword("hidden");
+    };
 
     useEffect(()=>{
         getData();
@@ -135,9 +152,73 @@ function Register() {
                                     
                                 </form>
                             </div>
-                            <div className='flex flex-row justify-center items-center w-full relative h-[40px]'>
-                                <div className='w-full h-[1px] bg-[#D0D0D0]'></div>
-                                <div className='flex items-center justify-center bg-[#fff] absolute p-[10px]'>
+                            <div className={classNotificationFailed}>
+                                <div className='flex flex-col justify-center gap-[25px] bg-[#fff] lg:p-[26px_122px_26px_122px] max-sm:p-[30px_25px_30px_25px]'>
+                                    <div className='flex flex-col items-center gap-[15px]'>
+                                        <CgDanger className='text-[100px] text-[#CC1914]' />
+                                        <p className='max-sm:text-center max-sm:text-[20px] lg:text-[25px] font-bold text-[#000] max-sm:w-[100%]'>Please enter complete information!</p>
+                                    </div>
+                                    <div className='flex justify-center gap-[10px]'>
+                                        <button
+                                            type='button'
+                                            onClick={handleClose}
+                                            className='max-sm:p-[5px_20px_5px_20px] bg-[#F7EA00] lg:p-[5px_15px_5px_15px] font-medium text-[#000] rounded-[5px]'>
+                                            <p className='font-bold'>Close</p>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div className={classEmailFailed}>
+                                <div className='flex flex-col justify-center gap-[25px] bg-[#fff] lg:p-[26px_122px_26px_122px] max-sm:p-[30px_25px_30px_25px]'>
+                                    <div className='flex flex-col items-center gap-[15px]'>
+                                        <CgDanger className='text-[100px] text-[#CC1914]' />
+                                        <p className='max-sm:text-center max-sm:text-[20px] lg:text-[25px] font-bold text-[#000] max-sm:w-[100%]'>Email already exists. Please enter another email!</p>
+                                    </div>
+                                    <div className='flex justify-center gap-[10px]'>
+                                        <button
+                                            type='button'
+                                            onClick={handleClose}
+                                            className='max-sm:p-[5px_20px_5px_20px] bg-[#F7EA00] lg:p-[5px_15px_5px_15px] font-medium text-[#000] rounded-[5px]'>
+                                            <p className='font-bold'>Close</p>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div className={classPassword}>
+                                <div className='flex flex-col justify-center gap-[25px] bg-[#fff] lg:p-[26px_122px_26px_122px] max-sm:p-[30px_55px_30px_55px]'>
+                                    <div className='flex flex-col items-center gap-[15px]'>
+                                        <CgDanger className='text-[100px] text-[#CC1914]' />
+                                        <p className='max-sm:text-center max-sm:text-[20px] lg:text-[25px] font-bold text-[#000] max-sm:w-[100%]'>Please enter password!</p>
+                                    </div>
+                                    <div className='flex justify-center gap-[10px]'>
+                                        <button
+                                            type='button'
+                                            onClick={handleClose}
+                                            className='max-sm:p-[5px_20px_5px_20px] bg-[#F7EA00] lg:p-[5px_15px_5px_15px] font-medium text-[#000] rounded-[5px]'>
+                                            <p className='font-bold'>Close</p>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div className={classCheckPassword}>
+                                <div className='flex flex-col justify-center gap-[25px] bg-[#fff] lg:p-[26px_122px_26px_122px] max-sm:p-[30px_35px_30px_35px]'>
+                                    <div className='flex flex-col items-center gap-[15px]'>
+                                        <CgDanger className='text-[100px] text-[#CC1914]' />
+                                        <p className='max-sm:text-center max-sm:text-[20px] lg:text-[25px] font-bold text-[#000] max-sm:w-[100%]'>Password does not match!</p>
+                                    </div>
+                                    <div className='flex justify-center gap-[10px]'>
+                                        <button
+                                            type='button'
+                                            onClick={handleClose}
+                                            className='max-sm:p-[5px_20px_5px_20px] bg-[#F7EA00] lg:p-[5px_15px_5px_15px] font-medium text-[#000] rounded-[5px]'>
+                                            <p className='font-bold'>Close</p>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div className='flex flex-row justify-center items-center w-full lg:relative h-[40px]'>
+                                <div className='lg:block max-sm:hidden w-full h-[1px] bg-[#D0D0D0]'></div>
+                                <div className='flex items-center justify-center bg-[#fff] lg:absolute p-[10px]'>
                                     <p className='text-[14px] text-[#D0D0D0]'>Other Ways to Register</p>
                                 </div>
                             </div>

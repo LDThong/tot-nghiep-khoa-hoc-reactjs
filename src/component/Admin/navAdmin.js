@@ -32,7 +32,7 @@ function navAdmin() {
               <img className='w-[60px] rounded-[8px]' src='/images/logo.png'></img>
             </div>
             <div>
-              <p className='font-bold text-[#fff]'>Productly</p>
+              <p className='font-bold text-[#fff]'>Admin</p>
             </div>
           </div>
         </div>

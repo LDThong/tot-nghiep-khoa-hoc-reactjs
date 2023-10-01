@@ -27,6 +27,9 @@ import PageEditInfo from "./component/home/PageEditInfo";
 import UserManagement from "./component/Admin/UserManagement";
 import ListOrder from "./component/Admin/ListOrder";
 import ShopMobile from "./component/home/ShopMobile";
+import EditUserInfo from "./component/Admin/EditUserInfo";
+import EditPassword from "./component/Admin/editPassword";
+import EditPasswordUser from "./component/home/EditPasswordUser";
 
 const router = createBrowserRouter([
   // ------------ User -------------
@@ -106,6 +109,10 @@ const router = createBrowserRouter([
     path: '/user/:id/editinfo/',
     element: <PageEditInfo />
   },
+  {
+    path: '/user/changepassword/:id',
+    element: <EditPasswordUser />
+  },
   // ------------- Admin -----------------
   {
     path: '/admin/',
@@ -134,6 +141,14 @@ const router = createBrowserRouter([
   {
     path: '/admin/home/listorder/',
     element: <ListOrder />
+  },
+  {
+    path: '/admin/home/edituserinfo/:id',
+    element: <EditUserInfo />
+  },
+  {
+    path: '/admin/home/editpassword/:id',
+    element: <EditPassword />
   }
 ])
 
